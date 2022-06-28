@@ -1,0 +1,696 @@
+Archive member included to satisfy reference by file (symbol)
+
+e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_addsubdf3.o)
+                              ./src/Systick.o (__aeabi_ui2d)
+e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_muldivdf3.o)
+                              ./src/Usart.o (__aeabi_dmul)
+e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_truncdfsf2.o)
+                              ./src/Usart.o (__aeabi_d2f)
+e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_addsubsf3.o)
+                              ./src/Usart.o (__aeabi_fsub)
+e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_muldivsf3.o)
+                              ./src/Usart.o (__aeabi_fmul)
+e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_fixunssfsi.o)
+                              ./src/Usart.o (__aeabi_f2uiz)
+e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_fixunsdfdi.o)
+                              ./src/Systick.o (__aeabi_d2ulz)
+e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_fixunsdfsi.o)
+                              e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_fixunsdfdi.o) (__aeabi_d2uiz)
+
+Allocating common symbols
+Common symbol       size              file
+
+u8RecBuffer         0x64              ./src/main.o
+
+Discarded input sections
+
+ .group         0x00000000        0x8 ./src/Fls.o
+ .group         0x00000000        0x8 ./src/Fls.o
+ .group         0x00000000        0x8 ./src/Fls.o
+ .text          0x00000000        0x0 ./src/Fls.o
+ .data          0x00000000        0x0 ./src/Fls.o
+ .bss           0x00000000        0x0 ./src/Fls.o
+ .text.Fls_enuInit
+                0x00000000       0x3c ./src/Fls.o
+ .text.Fls_enuErase
+                0x00000000       0x74 ./src/Fls.o
+ .text.Fls_enuWrite
+                0x00000000       0xf0 ./src/Fls.o
+ .bss.Fls_u8ProgrammingSize
+                0x00000000        0x4 ./src/Fls.o
+ .debug_info    0x00000000      0x446 ./src/Fls.o
+ .debug_abbrev  0x00000000      0x129 ./src/Fls.o
+ .debug_loc     0x00000000      0x392 ./src/Fls.o
+ .debug_aranges
+                0x00000000       0x30 ./src/Fls.o
+ .debug_ranges  0x00000000       0x20 ./src/Fls.o
+ .debug_macro   0x00000000       0x2d ./src/Fls.o
+ .debug_macro   0x00000000      0x898 ./src/Fls.o
+ .debug_macro   0x00000000       0x40 ./src/Fls.o
+ .debug_macro   0x00000000       0x52 ./src/Fls.o
+ .debug_line    0x00000000      0x138 ./src/Fls.o
+ .debug_str     0x00000000     0x2cb1 ./src/Fls.o
+ .comment       0x00000000       0x6f ./src/Fls.o
+ .debug_frame   0x00000000       0x68 ./src/Fls.o
+ .ARM.attributes
+                0x00000000       0x33 ./src/Fls.o
+ .group         0x00000000        0x8 ./src/GPIO_program.o
+ .group         0x00000000        0x8 ./src/GPIO_program.o
+ .group         0x00000000        0x8 ./src/GPIO_program.o
+ .group         0x00000000        0x8 ./src/GPIO_program.o
+ .text          0x00000000        0x0 ./src/GPIO_program.o
+ .data          0x00000000        0x0 ./src/GPIO_program.o
+ .bss           0x00000000        0x0 ./src/GPIO_program.o
+ .text.GPIO_enuInitPin
+                0x00000000       0x8c ./src/GPIO_program.o
+ .text.GPIO_WritePinValue
+                0x00000000       0x20 ./src/GPIO_program.o
+ .text.GPIO_ReadPinValue
+                0x00000000       0x20 ./src/GPIO_program.o
+ .text.GPIO_SetAF
+                0x00000000       0x28 ./src/GPIO_program.o
+ .text.GPIO_SetLockPin
+                0x00000000       0x2c ./src/GPIO_program.o
+ .debug_info    0x00000000      0x373 ./src/GPIO_program.o
+ .debug_abbrev  0x00000000      0x117 ./src/GPIO_program.o
+ .debug_loc     0x00000000      0x36c ./src/GPIO_program.o
+ .debug_aranges
+                0x00000000       0x40 ./src/GPIO_program.o
+ .debug_ranges  0x00000000       0x30 ./src/GPIO_program.o
+ .debug_macro   0x00000000       0x42 ./src/GPIO_program.o
+ .debug_macro   0x00000000      0x898 ./src/GPIO_program.o
+ .debug_macro   0x00000000       0x40 ./src/GPIO_program.o
+ .debug_macro   0x00000000       0x22 ./src/GPIO_program.o
+ .debug_macro   0x00000000      0x17e ./src/GPIO_program.o
+ .debug_line    0x00000000      0x146 ./src/GPIO_program.o
+ .debug_str     0x00000000     0x30e4 ./src/GPIO_program.o
+ .comment       0x00000000       0x6f ./src/GPIO_program.o
+ .debug_frame   0x00000000       0x78 ./src/GPIO_program.o
+ .ARM.attributes
+                0x00000000       0x33 ./src/GPIO_program.o
+ .group         0x00000000        0x8 ./src/Nvic.o
+ .group         0x00000000        0x8 ./src/Nvic.o
+ .group         0x00000000        0x8 ./src/Nvic.o
+ .group         0x00000000        0x8 ./src/Nvic.o
+ .text          0x00000000        0x0 ./src/Nvic.o
+ .data          0x00000000        0x0 ./src/Nvic.o
+ .bss           0x00000000        0x0 ./src/Nvic.o
+ .text.Nvic_enuEnableInterrupt
+                0x00000000       0x24 ./src/Nvic.o
+ .text.Nvic_enuDisableInterrupt
+                0x00000000       0x24 ./src/Nvic.o
+ .text.Nvic_enuSetPending
+                0x00000000       0x24 ./src/Nvic.o
+ .text.Nvic_enuClrPending
+                0x00000000       0x24 ./src/Nvic.o
+ .text.Nvic_enuGetActiveStatus
+                0x00000000       0x30 ./src/Nvic.o
+ .text.Nvic_enuSetPriority
+                0x00000000      0x10c ./src/Nvic.o
+ .debug_info    0x00000000      0x46c ./src/Nvic.o
+ .debug_abbrev  0x00000000      0x132 ./src/Nvic.o
+ .debug_loc     0x00000000      0x6d6 ./src/Nvic.o
+ .debug_aranges
+                0x00000000       0x48 ./src/Nvic.o
+ .debug_ranges  0x00000000       0x38 ./src/Nvic.o
+ .debug_macro   0x00000000       0x50 ./src/Nvic.o
+ .debug_macro   0x00000000      0x898 ./src/Nvic.o
+ .debug_macro   0x00000000       0x40 ./src/Nvic.o
+ .debug_macro   0x00000000       0xd6 ./src/Nvic.o
+ .debug_macro   0x00000000       0x10 ./src/Nvic.o
+ .debug_line    0x00000000      0x143 ./src/Nvic.o
+ .debug_str     0x00000000     0x2d23 ./src/Nvic.o
+ .comment       0x00000000       0x6f ./src/Nvic.o
+ .debug_frame   0x00000000       0x9c ./src/Nvic.o
+ .ARM.attributes
+                0x00000000       0x33 ./src/Nvic.o
+ .group         0x00000000        0x8 ./src/Parse.o
+ .group         0x00000000        0x8 ./src/Parse.o
+ .group         0x00000000        0x8 ./src/Parse.o
+ .text          0x00000000        0x0 ./src/Parse.o
+ .data          0x00000000        0x0 ./src/Parse.o
+ .bss           0x00000000        0x0 ./src/Parse.o
+ .text.Parser_u8Asci_toHEX
+                0x00000000       0x14 ./src/Parse.o
+ .text.Parser_vidParse_Data
+                0x00000000       0xc4 ./src/Parse.o
+ .text.Parser_vidExtended_Add
+                0x00000000       0x3c ./src/Parse.o
+ .text.Parser_vidParseRecord
+                0x00000000       0x1c ./src/Parse.o
+ .bss.Half_word
+                0x00000000       0xc8 ./src/Parse.o
+ .data.address  0x00000000        0x4 ./src/Parse.o
+ .debug_info    0x00000000      0x36e ./src/Parse.o
+ .debug_abbrev  0x00000000      0x121 ./src/Parse.o
+ .debug_loc     0x00000000      0x219 ./src/Parse.o
+ .debug_aranges
+                0x00000000       0x38 ./src/Parse.o
+ .debug_ranges  0x00000000       0x40 ./src/Parse.o
+ .debug_macro   0x00000000       0x2d ./src/Parse.o
+ .debug_macro   0x00000000      0x898 ./src/Parse.o
+ .debug_macro   0x00000000       0x40 ./src/Parse.o
+ .debug_macro   0x00000000       0x22 ./src/Parse.o
+ .debug_line    0x00000000       0xeb ./src/Parse.o
+ .debug_str     0x00000000     0x280e ./src/Parse.o
+ .comment       0x00000000       0x6f ./src/Parse.o
+ .debug_frame   0x00000000       0x84 ./src/Parse.o
+ .ARM.attributes
+                0x00000000       0x33 ./src/Parse.o
+ .group         0x00000000        0x8 ./src/RCC.o
+ .group         0x00000000        0x8 ./src/RCC.o
+ .group         0x00000000        0x8 ./src/RCC.o
+ .group         0x00000000        0x8 ./src/RCC.o
+ .group         0x00000000        0x8 ./src/RCC.o
+ .group         0x00000000        0x8 ./src/RCC.o
+ .text          0x00000000        0x0 ./src/RCC.o
+ .data          0x00000000        0x0 ./src/RCC.o
+ .bss           0x00000000        0x0 ./src/RCC.o
+ .text.RCC_enuSelectBusPre
+                0x00000000       0x64 ./src/RCC.o
+ .text.RCC_enuRetClkRDY
+                0x00000000       0x3c ./src/RCC.o
+ .text.RCC_enuTurnClk
+                0x00000000       0xa0 ./src/RCC.o
+ .text.RCC_enuPerClk
+                0x00000000       0xe8 ./src/RCC.o
+ .text.RCC_enuConfigPLL
+                0x00000000       0x30 ./src/RCC.o
+ .text.RCC_enuSelectSysClk
+                0x00000000      0x200 ./src/RCC.o
+ .debug_info    0x00000000      0x655 ./src/RCC.o
+ .debug_abbrev  0x00000000      0x134 ./src/RCC.o
+ .debug_loc     0x00000000      0x835 ./src/RCC.o
+ .debug_aranges
+                0x00000000       0x48 ./src/RCC.o
+ .debug_ranges  0x00000000       0x38 ./src/RCC.o
+ .debug_macro   0x00000000       0x3e ./src/RCC.o
+ .debug_macro   0x00000000      0x898 ./src/RCC.o
+ .debug_macro   0x00000000       0x40 ./src/RCC.o
+ .debug_macro   0x00000000       0x4c ./src/RCC.o
+ .debug_macro   0x00000000       0x53 ./src/RCC.o
+ .debug_macro   0x00000000       0x8e ./src/RCC.o
+ .debug_macro   0x00000000       0x1c ./src/RCC.o
+ .debug_line    0x00000000      0x21b ./src/RCC.o
+ .debug_str     0x00000000     0x2f08 ./src/RCC.o
+ .comment       0x00000000       0x6f ./src/RCC.o
+ .debug_frame   0x00000000       0x80 ./src/RCC.o
+ .ARM.attributes
+                0x00000000       0x33 ./src/RCC.o
+ .group         0x00000000        0x8 ./src/RCC_cfg.o
+ .text          0x00000000        0x0 ./src/RCC_cfg.o
+ .data          0x00000000        0x0 ./src/RCC_cfg.o
+ .bss           0x00000000        0x0 ./src/RCC_cfg.o
+ .debug_info    0x00000000       0x21 ./src/RCC_cfg.o
+ .debug_abbrev  0x00000000       0x13 ./src/RCC_cfg.o
+ .debug_aranges
+                0x00000000       0x18 ./src/RCC_cfg.o
+ .debug_macro   0x00000000       0x11 ./src/RCC_cfg.o
+ .debug_macro   0x00000000      0x898 ./src/RCC_cfg.o
+ .debug_line    0x00000000       0x31 ./src/RCC_cfg.o
+ .debug_str     0x00000000     0x2532 ./src/RCC_cfg.o
+ .comment       0x00000000       0x6f ./src/RCC_cfg.o
+ .ARM.attributes
+                0x00000000       0x33 ./src/RCC_cfg.o
+ .group         0x00000000        0x8 ./src/Systick.o
+ .group         0x00000000        0x8 ./src/Systick.o
+ .group         0x00000000        0x8 ./src/Systick.o
+ .group         0x00000000        0x8 ./src/Systick.o
+ .group         0x00000000        0x8 ./src/Systick.o
+ .group         0x00000000        0x8 ./src/Systick.o
+ .text          0x00000000        0x0 ./src/Systick.o
+ .data          0x00000000        0x0 ./src/Systick.o
+ .bss           0x00000000        0x0 ./src/Systick.o
+ .text.Systick_enuInit
+                0x00000000       0x4c ./src/Systick.o
+ .text.Systick_enuSetTickTimeMS
+                0x00000000       0x68 ./src/Systick.o
+ .text.Systick_vidRegCallbackFn
+                0x00000000       0x14 ./src/Systick.o
+ .text.Systick_enuStart
+                0x00000000       0x10 ./src/Systick.o
+ .text.SysTick_Handler
+                0x00000000       0x68 ./src/Systick.o
+ .text.Systick_vidStop
+                0x00000000       0x10 ./src/Systick.o
+ .bss.Systick_u32OverflowsNumber
+                0x00000000        0x4 ./src/Systick.o
+ .bss.Systick_pfCallback
+                0x00000000        0x4 ./src/Systick.o
+ .bss.Systick_u32TempOverflowsNumber
+                0x00000000        0x4 ./src/Systick.o
+ .bss.Systick_u32ReloadValue
+                0x00000000        0x4 ./src/Systick.o
+ .debug_info    0x00000000      0x274 ./src/Systick.o
+ .debug_abbrev  0x00000000      0x158 ./src/Systick.o
+ .debug_loc     0x00000000      0x11e ./src/Systick.o
+ .debug_aranges
+                0x00000000       0x48 ./src/Systick.o
+ .debug_ranges  0x00000000       0x38 ./src/Systick.o
+ .debug_macro   0x00000000       0x3e ./src/Systick.o
+ .debug_macro   0x00000000      0x898 ./src/Systick.o
+ .debug_macro   0x00000000       0x40 ./src/Systick.o
+ .debug_macro   0x00000000       0x53 ./src/Systick.o
+ .debug_macro   0x00000000       0x22 ./src/Systick.o
+ .debug_macro   0x00000000       0x10 ./src/Systick.o
+ .debug_macro   0x00000000       0x28 ./src/Systick.o
+ .debug_line    0x00000000      0x11f ./src/Systick.o
+ .debug_str     0x00000000     0x2b00 ./src/Systick.o
+ .comment       0x00000000       0x6f ./src/Systick.o
+ .debug_frame   0x00000000       0x80 ./src/Systick.o
+ .ARM.attributes
+                0x00000000       0x33 ./src/Systick.o
+ .group         0x00000000        0x8 ./src/Systick_cfg.o
+ .text          0x00000000        0x0 ./src/Systick_cfg.o
+ .data          0x00000000        0x0 ./src/Systick_cfg.o
+ .bss           0x00000000        0x0 ./src/Systick_cfg.o
+ .debug_info    0x00000000       0x21 ./src/Systick_cfg.o
+ .debug_abbrev  0x00000000       0x13 ./src/Systick_cfg.o
+ .debug_aranges
+                0x00000000       0x18 ./src/Systick_cfg.o
+ .debug_macro   0x00000000       0x11 ./src/Systick_cfg.o
+ .debug_macro   0x00000000      0x898 ./src/Systick_cfg.o
+ .debug_line    0x00000000       0x35 ./src/Systick_cfg.o
+ .debug_str     0x00000000     0x2536 ./src/Systick_cfg.o
+ .comment       0x00000000       0x6f ./src/Systick_cfg.o
+ .ARM.attributes
+                0x00000000       0x33 ./src/Systick_cfg.o
+ .group         0x00000000        0x8 ./src/Usart.o
+ .group         0x00000000        0x8 ./src/Usart.o
+ .group         0x00000000        0x8 ./src/Usart.o
+ .group         0x00000000        0x8 ./src/Usart.o
+ .text          0x00000000        0x0 ./src/Usart.o
+ .data          0x00000000        0x0 ./src/Usart.o
+ .bss           0x00000000        0x0 ./src/Usart.o
+ .text.Usart_enuInit
+                0x00000000      0x11c ./src/Usart.o
+ .text.Usart_enuSendByte
+                0x00000000       0x2c ./src/Usart.o
+ .text.Usart_enuSendBufferZC
+                0x00000000       0x50 ./src/Usart.o
+ .text.Usart_enuStaticSendBufferZC
+                0x00000000       0x50 ./src/Usart.o
+ .text.Usart_enuReceiveBufferZC
+                0x00000000       0x40 ./src/Usart.o
+ .text.Usart_enuStaticReceiveBufferZC
+                0x00000000       0x50 ./src/Usart.o
+ .text.Usart_enuSendBufferDmaZC
+                0x00000000       0x14 ./src/Usart.o
+ .text.Usart_enuRegCallbackFn
+                0x00000000       0x24 ./src/Usart.o
+ .text.USART1_IRQHandler
+                0x00000000       0x94 ./src/Usart.o
+ .bss.Usart_pfarrCallBackFn
+                0x00000000       0x78 ./src/Usart.o
+ .rodata.Usart_pstrarrBuses
+                0x00000000        0xc ./src/Usart.o
+ .bss.Usart_pstrarrDataBuffers
+                0x00000000        0xc ./src/Usart.o
+ .bss.Usart_u8arrReceiveBusyFlag
+                0x00000000        0x3 ./src/Usart.o
+ .bss.Usart_u8arrBusyFlag
+                0x00000000        0x3 ./src/Usart.o
+ .bss.Usart_u8DmaByte
+                0x00000000        0x1 ./src/Usart.o
+ .bss.Usart_pstrarrReceiveBuffers
+                0x00000000        0xc ./src/Usart.o
+ .debug_info    0x00000000      0x55d ./src/Usart.o
+ .debug_abbrev  0x00000000      0x184 ./src/Usart.o
+ .debug_loc     0x00000000      0x44c ./src/Usart.o
+ .debug_aranges
+                0x00000000       0x60 ./src/Usart.o
+ .debug_ranges  0x00000000       0x50 ./src/Usart.o
+ .debug_macro   0x00000000       0x36 ./src/Usart.o
+ .debug_macro   0x00000000      0x898 ./src/Usart.o
+ .debug_macro   0x00000000       0x40 ./src/Usart.o
+ .debug_macro   0x00000000       0xa0 ./src/Usart.o
+ .debug_macro   0x00000000       0xf4 ./src/Usart.o
+ .debug_line    0x00000000      0x186 ./src/Usart.o
+ .debug_str     0x00000000     0x3230 ./src/Usart.o
+ .comment       0x00000000       0x6f ./src/Usart.o
+ .debug_frame   0x00000000       0xdc ./src/Usart.o
+ .ARM.attributes
+                0x00000000       0x33 ./src/Usart.o
+ .group         0x00000000        0x8 ./src/main.o
+ .group         0x00000000        0x8 ./src/main.o
+ .group         0x00000000        0x8 ./src/main.o
+ .group         0x00000000        0x8 ./src/main.o
+ .group         0x00000000        0x8 ./src/main.o
+ .group         0x00000000        0x8 ./src/main.o
+ .group         0x00000000        0x8 ./src/main.o
+ .group         0x00000000        0x8 ./src/main.o
+ .text          0x00000000        0x0 ./src/main.o
+ .data          0x00000000        0x0 ./src/main.o
+ .bss           0x00000000        0x0 ./src/main.o
+ .text.func     0x00000000       0x24 ./src/main.o
+ .text.main     0x00000000      0x150 ./src/main.o
+ .rodata        0x00000000       0x10 ./src/main.o
+ .bss.addr_to_call
+                0x00000000        0x4 ./src/main.o
+ .bss.u8RecCounter
+                0x00000000        0x1 ./src/main.o
+ .data.u8BLWriteReq
+                0x00000000        0x1 ./src/main.o
+ .bss.u16TimerCounter
+                0x00000000        0x2 ./src/main.o
+ .rodata.str1.4
+                0x00000000        0x3 ./src/main.o
+ .bss.u8TimeOutFlag
+                0x00000000        0x1 ./src/main.o
+ .debug_info    0x00000000      0x6d3 ./src/main.o
+ .debug_abbrev  0x00000000      0x157 ./src/main.o
+ .debug_loc     0x00000000       0x13 ./src/main.o
+ .debug_aranges
+                0x00000000       0x28 ./src/main.o
+ .debug_ranges  0x00000000       0x18 ./src/main.o
+ .debug_macro   0x00000000       0x70 ./src/main.o
+ .debug_macro   0x00000000      0x898 ./src/main.o
+ .debug_macro   0x00000000       0x40 ./src/main.o
+ .debug_macro   0x00000000       0x22 ./src/main.o
+ .debug_macro   0x00000000       0x4c ./src/main.o
+ .debug_macro   0x00000000      0x17e ./src/main.o
+ .debug_macro   0x00000000       0x22 ./src/main.o
+ .debug_macro   0x00000000       0xa0 ./src/main.o
+ .debug_macro   0x00000000       0xd6 ./src/main.o
+ .debug_line    0x00000000      0x106 ./src/main.o
+ .debug_str     0x00000000     0x3c22 ./src/main.o
+ .comment       0x00000000       0x6f ./src/main.o
+ .debug_frame   0x00000000       0x48 ./src/main.o
+ .ARM.attributes
+                0x00000000       0x33 ./src/main.o
+ COMMON         0x00000000       0x64 ./src/main.o
+ .text          0x00000000      0x370 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_addsubdf3.o)
+ .data          0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_addsubdf3.o)
+ .bss           0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_addsubdf3.o)
+ .ARM.attributes
+                0x00000000       0x1e e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_addsubdf3.o)
+ .text          0x00000000      0x424 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_muldivdf3.o)
+ .data          0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_muldivdf3.o)
+ .bss           0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_muldivdf3.o)
+ .ARM.attributes
+                0x00000000       0x1e e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_muldivdf3.o)
+ .text          0x00000000       0xa0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_truncdfsf2.o)
+ .data          0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_truncdfsf2.o)
+ .bss           0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_truncdfsf2.o)
+ .ARM.attributes
+                0x00000000       0x1e e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_truncdfsf2.o)
+ .text          0x00000000      0x21c e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_addsubsf3.o)
+ .data          0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_addsubsf3.o)
+ .bss           0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_addsubsf3.o)
+ .ARM.attributes
+                0x00000000       0x1e e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_addsubsf3.o)
+ .text          0x00000000      0x2a0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_muldivsf3.o)
+ .data          0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_muldivsf3.o)
+ .bss           0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_muldivsf3.o)
+ .ARM.attributes
+                0x00000000       0x1e e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_muldivsf3.o)
+ .text          0x00000000       0x40 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_fixunssfsi.o)
+ .data          0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_fixunssfsi.o)
+ .bss           0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_fixunssfsi.o)
+ .ARM.attributes
+                0x00000000       0x1e e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_fixunssfsi.o)
+ .text          0x00000000       0x48 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_fixunsdfdi.o)
+ .data          0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_fixunsdfdi.o)
+ .bss           0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_fixunsdfdi.o)
+ .debug_frame   0x00000000       0x2c e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_fixunsdfdi.o)
+ .ARM.attributes
+                0x00000000       0x2e e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_fixunsdfdi.o)
+ .text          0x00000000       0x40 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_fixunsdfsi.o)
+ .data          0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_fixunsdfsi.o)
+ .bss           0x00000000        0x0 e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_fixunsdfsi.o)
+ .ARM.attributes
+                0x00000000       0x1e e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a(_arm_fixunsdfsi.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x20000000         0x00010000         xrw
+CCMRAM           0x10000000         0x00000000         xrw
+FLASH            0x08000000         0x00042400         xr
+FLASHB1          0x00000000         0x00000000         xr
+EXTMEMB0         0x00000000         0x00000000         xr
+EXTMEMB1         0x00000000         0x00000000         xr
+EXTMEMB2         0x00000000         0x00000000         xr
+EXTMEMB3         0x00000000         0x00000000         xr
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./src/Fls.o
+LOAD ./src/GPIO_program.o
+LOAD ./src/Nvic.o
+LOAD ./src/Parse.o
+LOAD ./src/RCC.o
+LOAD ./src/RCC_cfg.o
+LOAD ./src/Systick.o
+LOAD ./src/Systick_cfg.o
+LOAD ./src/Usart.o
+LOAD ./src/main.o
+LOAD e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m\libstdc++_nano.a
+LOAD e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m\libm.a
+START GROUP
+LOAD e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a
+LOAD e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m\libg_nano.a
+LOAD e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m\libc_nano.a
+END GROUP
+START GROUP
+LOAD e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7e-m\libgcc.a
+LOAD e:/iti/arm_folder/tools/arm gcc/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7e-m\libc_nano.a
+END GROUP
+                0x20010000                __stack = (ORIGIN (RAM) + LENGTH (RAM))
+                0x20010000                _estack = __stack
+                0x00000400                __Main_Stack_Size = 0x400
+                [!provide]                PROVIDE (_Main_Stack_Size, __Main_Stack_Size)
+                0x2000fc00                __Main_Stack_Limit = (__stack - __Main_Stack_Size)
+                [!provide]                PROVIDE (_Main_Stack_Limit, __Main_Stack_Limit)
+                0x00000100                _Minimum_Stack_Size = 0x100
+                [!provide]                PROVIDE (_Heap_Begin, _end_noinit)
+                [!provide]                PROVIDE (_Heap_Limit, (__stack - __Main_Stack_Size))
+
+.isr_vector     0x08000000        0x0
+ FILL mask 0xff
+                0x08000000                __vectors_start = ABSOLUTE (.)
+                0x08000000                __vectors_start__ = ABSOLUTE (.)
+ *(.isr_vector)
+ *(.cfmconfig)
+ *(.after_vectors .after_vectors.*)
+
+.inits          0x08000000       0x28
+                0x08000000                __data_regions_array_start = .
+                0x08000000        0x4 LONG 0x8000028 LOADADDR (.data)
+                0x08000004        0x4 LONG 0x20000000 ADDR (.data)
+                0x08000008        0x4 LONG 0x20000000 (ADDR (.data) + SIZEOF (.data))
+                0x0800000c        0x4 LONG 0x8000028 LOADADDR (.data_CCMRAM)
+                0x08000010        0x4 LONG 0x10000000 ADDR (.data_CCMRAM)
+                0x08000014        0x4 LONG 0x10000000 (ADDR (.data_CCMRAM) + SIZEOF (.data_CCMRAM))
+                0x08000018                __data_regions_array_end = .
+                0x08000018                __bss_regions_array_start = .
+                0x08000018        0x4 LONG 0x20000000 ADDR (.bss)
+                0x0800001c        0x4 LONG 0x20000000 (ADDR (.bss) + SIZEOF (.bss))
+                0x08000020        0x4 LONG 0x10000000 ADDR (.bss_CCMRAM)
+                0x08000024        0x4 LONG 0x10000000 (ADDR (.bss_CCMRAM) + SIZEOF (.bss_CCMRAM))
+                0x08000028                __bss_regions_array_end = .
+ *(.init)
+ *(.fini)
+                0x08000028                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__preinit_array_start, .)
+ *(.preinit_array_sysinit .preinit_array_sysinit.*)
+ *(.preinit_array_platform .preinit_array_platform.*)
+ *(.preinit_array .preinit_array.*)
+                [!provide]                PROVIDE (__preinit_array_end, .)
+                0x08000028                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__init_array_start, .)
+ *(SORT(.init_array.*))
+ *(.init_array)
+                [!provide]                PROVIDE (__init_array_end, .)
+                0x08000028                . = ALIGN (0x4)
+                [!provide]                PROVIDE (__fini_array_start, .)
+ *(SORT(.fini_array.*))
+ *(.fini_array)
+                [!provide]                PROVIDE (__fini_array_end, .)
+
+.flashtext
+ *(.flashtext .flashtext.*)
+
+.text           0x08000028        0x0
+ *(.text .text.*)
+ *(.rodata .rodata.* .constdata .constdata.*)
+ *(vtable)
+ *(.eh_frame*)
+ *(.glue_7)
+ .glue_7        0x08000028        0x0 linker stubs
+ *(.glue_7t)
+ .glue_7t       0x08000028        0x0 linker stubs
+
+.vfp11_veneer   0x08000028        0x0
+ .vfp11_veneer  0x08000028        0x0 linker stubs
+
+.v4_bx          0x08000028        0x0
+ .v4_bx         0x08000028        0x0 linker stubs
+
+.iplt           0x08000028        0x0
+ .iplt          0x08000028        0x0 ./src/Fls.o
+
+.rel.dyn        0x08000028        0x0
+ .rel.iplt      0x08000028        0x0 ./src/Fls.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x08000028                . = ALIGN (0x4)
+                0x08000028                __exidx_start = .
+
+.ARM.exidx
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x08000028                __exidx_end = .
+                0x08000028                . = ALIGN (0x4)
+                0x08000028                _etext = .
+                0x08000028                __etext = .
+
+.data_CCMRAM    0x10000000        0x0 load address 0x08000028
+ FILL mask 0xff
+ *(.data.CCMRAM .data.CCMRAM.*)
+                0x10000000                . = ALIGN (0x4)
+                0x08000028                _sidata = LOADADDR (.data)
+
+.data           0x20000000        0x0 load address 0x08000028
+ FILL mask 0xff
+                0x20000000                _sdata = .
+                0x20000000                __data_start__ = .
+ *(.data_begin .data_begin.*)
+ *(.data .data.*)
+ *(.data_end .data_end.*)
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _edata = .
+                0x20000000                __data_end__ = .
+
+.igot.plt       0x20000000        0x0 load address 0x08000028
+ .igot.plt      0x20000000        0x0 ./src/Fls.o
+
+.bss_CCMRAM     0x10000000        0x0
+ *(.bss.CCMRAM .bss.CCMRAM.*)
+
+.bss            0x20000000        0x0
+                0x20000000                __bss_start__ = .
+                0x20000000                _sbss = .
+ *(.bss_begin .bss_begin.*)
+ *(.bss .bss.*)
+ *(COMMON)
+ *(.bss_end .bss_end.*)
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                __bss_end__ = .
+                0x20000000                _ebss = .
+
+.noinit_CCMRAM
+ *(.noinit.CCMRAM .noinit.CCMRAM.*)
+
+.noinit         0x20000000        0x0
+                0x20000000                _noinit = .
+ *(.noinit .noinit.*)
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _end_noinit = .
+                [!provide]                PROVIDE (end, _end_noinit)
+                [!provide]                PROVIDE (_end, _end_noinit)
+                [!provide]                PROVIDE (__end, _end_noinit)
+                [!provide]                PROVIDE (__end__, _end_noinit)
+
+._check_stack   0x20000000      0x100
+                0x20000100                . = (. + _Minimum_Stack_Size)
+ *fill*         0x20000000      0x100 
+
+.b1text
+ *(.b1text)
+ *(.b1rodata)
+ *(.b1rodata.*)
+
+.eb0text
+ *(.eb0text)
+ *(.eb0rodata)
+ *(.eb0rodata.*)
+
+.eb1text
+ *(.eb1text)
+ *(.eb1rodata)
+ *(.eb1rodata.*)
+
+.eb2text
+ *(.eb2text)
+ *(.eb2rodata)
+ *(.eb2rodata.*)
+
+.eb3text
+ *(.eb3text)
+ *(.eb3rodata)
+ *(.eb3rodata.*)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment
+ *(.comment)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info
+ *(.debug_info .gnu.linkonce.wi.*)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.debug_line
+ *(.debug_line)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+OUTPUT(Boot_Loader.elf elf32-littlearm)
