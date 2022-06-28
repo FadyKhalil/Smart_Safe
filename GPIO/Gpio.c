@@ -66,19 +66,19 @@ typedef struct
 /*****************************Function Prototype Helper****************************/
 
 /*Function Helper for input Initialization*/
-Gpio_tenuErrorStatus Gpio_enuHelperInput(GPIO_tstrPinConfiguration* Add_pstrPinConfg);
+static Gpio_tenuErrorStatus Gpio_enuHelperInput(GPIO_tstrPinConfiguration* Add_pstrPinConfg);
 
 
 /*Function Helper for Output Initialization*/
-Gpio_tenuErrorStatus Gpio_enuHelperOutput(GPIO_tstrPinConfiguration* Add_pstrPinConfg);
+static Gpio_tenuErrorStatus Gpio_enuHelperOutput(GPIO_tstrPinConfiguration* Add_pstrPinConfg);
 
 
 /*Function Helper for Output Alternative Function Initialization*/
-Gpio_tenuErrorStatus Gpio_enuHelperAfOutput(GPIO_tstrPinConfiguration* Add_pstrPinConfg);
+static Gpio_tenuErrorStatus Gpio_enuHelperAfOutput(GPIO_tstrPinConfiguration* Add_pstrPinConfg);
 
 
 /*Function Helper for Analog Initialization*/
-Gpio_tenuErrorStatus Gpio_enuHelperAnalog(GPIO_tstrPinConfiguration* Add_pstrPinConfg);
+static Gpio_tenuErrorStatus Gpio_enuHelperAnalog(GPIO_tstrPinConfiguration* Add_pstrPinConfg);
 
 /*####################################################################################*/
 
@@ -87,7 +87,7 @@ Gpio_tenuErrorStatus Gpio_enuHelperAnalog(GPIO_tstrPinConfiguration* Add_pstrPin
 /*####################################################################################*/
 /*********************************Function Implementation******************************/
 
-Gpio_tenuErrorStatus Gpio_enuPinConfigurationInit(GPIO_tstrPinConfiguration* Add_pstrPinConfg)
+extern Gpio_tenuErrorStatus Gpio_enuPinConfigurationInit(GPIO_tstrPinConfiguration* Add_pstrPinConfg)
 {
 
 	Gpio_tenuErrorStatus Loc_enuErrorStatus = Gpio_enuOK;
@@ -133,7 +133,7 @@ Gpio_tenuErrorStatus Gpio_enuPinConfigurationInit(GPIO_tstrPinConfiguration* Add
 }/*End of Function Gpio_PinConfigurationInit*/
 
 
-Gpio_tenuErrorStatus Gpio_enuSetPinValue(void* Add_vidGpioPort, u16 Copy_u8GpioPinNumber, u8 Copy_u8GpioPinValue)
+extern Gpio_tenuErrorStatus Gpio_enuSetPinValue(void* Add_vidGpioPort, u16 Copy_u8GpioPinNumber, u8 Copy_u8GpioPinValue)
 {
 	Gpio_tenuErrorStatus Loc_enuErrorStatus = Gpio_enuOK;
 
@@ -173,7 +173,7 @@ Gpio_tenuErrorStatus Gpio_enuSetPinValue(void* Add_vidGpioPort, u16 Copy_u8GpioP
 
 }/*end of function Gpio_enuSetPinValue*/
 
-Gpio_tenuErrorStatus Gpio_enuGetPinValue(void* Add_vidGpioPort, u16 Copy_u16GpioPinNumber, pu8 Add_pu8GpioPinValue)
+extern Gpio_tenuErrorStatus Gpio_enuGetPinValue(void* Add_vidGpioPort, u16 Copy_u16GpioPinNumber, pu8 Add_pu8GpioPinValue)
 {
 	Gpio_tenuErrorStatus Loc_enuErrorStatus = Gpio_enuOK;
 
@@ -373,6 +373,7 @@ Gpio_tenuErrorStatus Gpio_enuHelperAfOutput(GPIO_tstrPinConfiguration* Add_pstrP
 	u8 Loc_u8AfOtyper = (Add_pstrPinConfg->GPIO_Mode & 0x04) >> 2;
 	u8 Loc_u8AfSpeed = (Add_pstrPinConfg->GPIO_Speed);
 	u16 Loc_u8PinValue = Add_pstrPinConfg->GPIO_Pin;
+	u8 Loc_u8Alternative = Add_pstrPinConfg->GPIO_ALTF;
 	u32 Loc_u32TempRegister;
 
 	if (Add_pstrPinConfg == NULL)
@@ -387,7 +388,7 @@ Gpio_tenuErrorStatus Gpio_enuHelperAfOutput(GPIO_tstrPinConfiguration* Add_pstrP
 
 	else
 	{
-		for (Loc_u8Counter = 0; Loc_u8Counter > 16; Loc_u8Counter++)
+		for (Loc_u8Counter = 0; Loc_u8Counter < 16; Loc_u8Counter++)
 		{
 			if ((1 << Loc_u8Counter) & Loc_u8PinValue)
 			{
@@ -438,6 +439,16 @@ Gpio_tenuErrorStatus Gpio_enuHelperAfOutput(GPIO_tstrPinConfiguration* Add_pstrP
 
 				/*Store the new variable to register Moder*/
 				((Gpio_tstrRegister*)(Add_pstrPinConfg->GPIO_Port))->Ospeedr = Loc_u32TempRegister;
+
+				if(Loc_u8Counter <= 7)
+				{
+					((Gpio_tstrRegister*)(Add_pstrPinConfg->GPIO_Port))->Afrl = Loc_u8Alternative << (4 * Loc_u8Counter);
+				}
+
+				else if(Loc_u8Counter > 7)
+				{
+					((Gpio_tstrRegister*)(Add_pstrPinConfg->GPIO_Port))->Afrh |= Loc_u8Alternative << (4 * (Loc_u8Counter - 8));
+				}
 
 			}/*end of if --> Checking the pin valid*/
 
