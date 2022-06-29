@@ -287,5 +287,4 @@ Gpio_tenuErrorStatus Gpio_enuSetPinValue(void* Add_vidGpioPort, u16 Copy_u8GpioP
  * */
 Gpio_tenuErrorStatus Gpio_enuGetPinValue(void* Add_vidGpioPort, u16 Copy_u8GpioPinNumber, pu8 Add_pu8GpioPinValue);
 
-
 #endif

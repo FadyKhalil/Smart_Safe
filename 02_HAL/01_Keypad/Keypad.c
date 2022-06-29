@@ -1,224 +1,138 @@
-/* **************************************************************************************
-**       Author      :	Smart Safe Group
-**       Date        :	June 1, 2022
-**       Version     :	V01
-**       SWC         :	Keypad
-**       Description :	Keypad module files 
-** **************************************************************************************/
+/*
+ * Keypad.c
+ *
+ *  Created on: Apr 14, 2022
+ *      Author:
+ */
+
+#include "StdTypes.h"
 #include "Gpio.h"
-#include "Core.h"
 #include "Keypad.h"
+#include "Keypad_prv.h"
 #include "Keypad_cfg.h"
 
-extern Keypad_tsConfig Keypad_Config_Ouput[];
-extern Keypad_tsConfig Keypad_Config_Input[];
 
-static s8 Keypad_s8PressedKey = -1;
-static u8 Keypad_u8NewValueFlag = 0;
+/*Extern the keypad pins*/
+extern const Keypad_cfg_t Keypad_Pins[NUM_COLS + NUM_ROWS];
 
-static u8 Keypad_u8arrValues[] = "123/456*789+.0.-";
+/*Keypad_u8PressedAvaliable is used as a flag for the Keypad_enuGetKey function*/
+extern u8 Keypad_u8PressedAvaliable;
 
-Keypad_tenuErrorStatus KeyPad_vidInit(void)
+/*Keypad_u8PressedKey is used to hold the pressed key value*/
+extern u8 Keypad_u8PressedKey;
+
+
+/*
+ * Function implementation
+ */
+
+extern Keypad_tenuErrorStatus Keypad_enuInit()
 {
-	u8 Loc_u8CheckingClockON = 0;
-	u8 Loc_u8Counter = 0;
+	/*Loc_enuReturnStatus is used to hold the error status of the function*/
+	Keypad_tenuErrorStatus Loc_enuReturnStatus = Keypad_enuOk;
 
-	Keypad_tenuErrorStatus Loc_enuErrorStatus = Keypad_enuOk;
-	/*Create object from gpio configuration*/
-	GPIO_tstrPinConfiguration Gpio_Configuration;
+	/*Loc_u8ForCounter is used as a counter for the for loop.*/
+	u8 Loc_u8ForCounter = 0;
 
-	/*For loop to loop around the pin to init*/
-	for (Loc_u8Counter = 0; Loc_u8Counter < KEYPAD_u8ROW_COUNT; Loc_u8Counter++)
+	/*Loc_enuGpioConfig is used to configure the pins of the keypad*/
+	GPIO_tstrPinConfiguration Loc_enuGpioConfig;
+
+	/*Loc_enuGpioErrorStatus is used to check the initialization of the pins.*/
+	Gpio_tenuErrorStatus Loc_enuGpioErrorStatus = Gpio_enuOK;
+
+
+	/*Initialize the row pins as output*/
+	for(Loc_u8ForCounter = 0; Loc_u8ForCounter < NUM_ROWS; Loc_u8ForCounter++)
 	{
+		/*Set the row pins to be output with high speed*/
+		Loc_enuGpioConfig.GPIO_Mode = GPIO_u8OUTPUT_PUSHPULL;
+		Loc_enuGpioConfig.GPIO_Speed = GPIO_Speed_Medium;
 
-		Gpio_Configuration.GPIO_Mode = Keypad_Config_Ouput[Loc_u8Counter].Mode;
-		/*Init the Pin number to the gpio*/
-		Gpio_Configuration.GPIO_Pin = Keypad_Config_Ouput[Loc_u8Counter].Pin;
-		/*Init the Port number to the gpio*/
-		Gpio_Configuration.GPIO_Port = Keypad_Config_Ouput[Loc_u8Counter].PORT;
-		/*Init the Pin speed*/
+		Loc_enuGpioConfig.GPIO_Port = Keypad_Pins[Loc_u8ForCounter].Keypad_Port;
+		Loc_enuGpioConfig.GPIO_Pin = Keypad_Pins[Loc_u8ForCounter].Keypad_Pin;
 
-		if (Gpio_Configuration.GPIO_Port == PORTA && !(Loc_u8CheckingClockON & 0x01))
+		/*Initialize the pin*/
+		Loc_enuGpioErrorStatus = Gpio_enuPinConfigurationInit(&Loc_enuGpioConfig);
+
+		/*Check the error status of the gpio_init function*/
+		if(Loc_enuGpioErrorStatus != Gpio_enuOK)
 		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x01;
-		}
-
-		else if (Gpio_Configuration.GPIO_Port == PORTB && !((Loc_u8CheckingClockON >> 1) & 0x01))
-		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x02;
-		}
-
-		else if (Gpio_Configuration.GPIO_Port == PORTC && !((Loc_u8CheckingClockON >> 2) & 0x01))
-		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x04;
-		}
-
-		else if (Gpio_Configuration.GPIO_Port == PORTD && !((Loc_u8CheckingClockON >> 3) & 0x01))
-		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x08;
-		}
-
-		else if (Gpio_Configuration.GPIO_Port == PORTE && !((Loc_u8CheckingClockON >> 4) & 0x01))
-		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x10;
-		}
-
-		else if (Gpio_Configuration.GPIO_Port == PORTH && !((Loc_u8CheckingClockON >> 5) & 0x01))
-		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x20;
-		}
-
-		/*Init the gpio for each led*/
-		Loc_enuErrorStatus = Gpio_enuPinConfigurationInit(&Gpio_Configuration);
-
-	}/*end for loop --> to init the led pin*/
-
-	/*For loop to loop around the pin to init*/
-	for (Loc_u8Counter = 0; Loc_u8Counter < KEYPAD_u8COLUMN_COUNT; Loc_u8Counter++)
-	{
-
-		Gpio_Configuration.GPIO_Mode = Keypad_Config_Input[Loc_u8Counter].Mode;
-		/*Init the Pin number to the gpio*/
-		Gpio_Configuration.GPIO_Pin = Keypad_Config_Input[Loc_u8Counter].Pin;
-		/*Init the Port number to the gpio*/
-		Gpio_Configuration.GPIO_Port = Keypad_Config_Input[Loc_u8Counter].PORT;
-		/*Init the Pin speed*/
-
-		if (Gpio_Configuration.GPIO_Port == PORTA && !(Loc_u8CheckingClockON & 0x01))
-		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x01;
-		}
-
-		else if (Gpio_Configuration.GPIO_Port == PORTB && !((Loc_u8CheckingClockON >> 1) & 0x01))
-		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x02;
-		}
-
-		else if (Gpio_Configuration.GPIO_Port == PORTC && !((Loc_u8CheckingClockON >> 2) & 0x01))
-		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x04;
-		}
-
-		else if (Gpio_Configuration.GPIO_Port == PORTD && !((Loc_u8CheckingClockON >> 3) & 0x01))
-		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x08;
-		}
-
-		else if (Gpio_Configuration.GPIO_Port == PORTE && !((Loc_u8CheckingClockON >> 4) & 0x01))
-		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x10;
-		}
-
-		else if (Gpio_Configuration.GPIO_Port == PORTH && !((Loc_u8CheckingClockON >> 5) & 0x01))
-		{
-			
-			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x20;
-		}
-
-		/*Init the gpio for each led*/
-		Loc_enuErrorStatus = Gpio_enuPinConfigurationInit(&Gpio_Configuration);
-
-	}/*end for loop --> to init the led pin*/
-
-	/*return status*/
-	return Loc_enuErrorStatus;
-}
-
-void Keypad_GetKeyValue_T(void)
-{
-	Switch_Status_e SwitchState[KEYPAD_u8ROW_COUNT * KEYPAD_u8COLUMN_COUNT] = {Init};
-	u8 Loc_u8Row = 0;
-	u8 Loc_u8Column = 0;
-	u8 Loc_u8CurrentValue = 0;
-	u8 Loc_u8CurrentPressedKey = 0;
-	while(1)
-  {
-    Loc_u8Row = 0;
-    Loc_u8CurrentValue = 0;
-    Loc_u8CurrentPressedKey = 0;
-
-    while (Loc_u8Row < KEYPAD_u8ROW_COUNT)
-    {
-      Gpio_enuSetPinValue(Keypad_Config_Ouput[Loc_u8Row].PORT, Keypad_Config_Ouput[Loc_u8Row].Pin, GPIO_u8HIGH);
-      Loc_u8Column = 0;
-      while(Loc_u8Column < KEYPAD_u8COLUMN_COUNT)
-      {
-        switch (SwitchState[(Loc_u8Row * KEYPAD_u8ROW_COUNT) + Loc_u8Column])
-        {
-        case Init:
-          Gpio_enuGetPinValue(Keypad_Config_Input[Loc_u8Column].PORT, Keypad_Config_Input[Loc_u8Column].Pin, &Loc_u8CurrentValue);
-          if (Loc_u8CurrentValue == GPIO_u8HIGH)
-          {
-            SwitchState[(Loc_u8Row * KEYPAD_u8ROW_COUNT) + Loc_u8Column] = Pressed;
-          }
-          else
-          {
-            SwitchState[(Loc_u8Row * KEYPAD_u8ROW_COUNT) + Loc_u8Column] = Not_Pressed;
-          }
-          break;
-
-        case Pressed:
-          Gpio_enuGetPinValue(Keypad_Config_Input[Loc_u8Column].PORT, Keypad_Config_Input[Loc_u8Column].Pin, &Loc_u8CurrentValue);
-          if (Loc_u8CurrentValue == GPIO_u8HIGH)
-          {
-            Loc_u8CurrentPressedKey = (Loc_u8Row * KEYPAD_u8ROW_COUNT) + Loc_u8Column;
-          }
-          else
-          {
-            SwitchState[(Loc_u8Row * KEYPAD_u8ROW_COUNT) + Loc_u8Column] = Not_Pressed;
-          }
-          break;
-        case Not_Pressed:
-          Gpio_enuGetPinValue(Keypad_Config_Input[Loc_u8Column].PORT, Keypad_Config_Input[Loc_u8Column].Pin, &Loc_u8CurrentValue);
-          if (Loc_u8CurrentValue == GPIO_u8HIGH)
-          {
-            SwitchState[(Loc_u8Row * KEYPAD_u8ROW_COUNT) + Loc_u8Column] = Pressed;
-          }
-          break;
-        }
-        Loc_u8Column++;
-      }
-      Gpio_enuSetPinValue(Keypad_Config_Ouput[Loc_u8Row].PORT, Keypad_Config_Ouput[Loc_u8Row].Pin, GPIO_u8LOW);
-      Loc_u8Row++;
-    }
-    if (Loc_u8CurrentPressedKey != Keypad_s8PressedKey)
-    {
-      Keypad_s8PressedKey = Loc_u8CurrentPressedKey;
-      Keypad_u8NewValueFlag = 1;
-    }
-    OS_vidDelay(5);
-		trace_printf("Keypad Task\n");
-  }/* while */
-}
-
-void Keypad_u8GetPressedKey(pu8 Add_pu8Key)
-{
-	if(Add_pu8Key)
-	{
-		if ((Keypad_u8NewValueFlag == 1) && (Keypad_s8PressedKey != -1))
-		{
-			*Add_pu8Key = Keypad_u8arrValues[Keypad_s8PressedKey];
-			Keypad_u8NewValueFlag = 0;
-		}
+			/*Set Keypad_enuNotOk to Loc_enuReturnStatus as the the function called initialize the pin.*/
+			Loc_enuReturnStatus = Keypad_enuNotOk;
+		}/*end of if(Loc_enuGpioErrorStatus != Gpio_enuOk)*/
 		else
 		{
-			*Add_pu8Key = 0;
-		}
-	}
+			/*Do nothing*/
+		}/*end of else of if(Loc_enuGpioErrorStatus != Gpio_enuOk)*/
+
+
+	}/*end of for(Loc_u8ForCounter = ZERO; Loc_u8ForCounter < NUM_ROWS; Loc_u8ForCounter++)*/
+
+	/*Initialize the column pins as input*/
+	for(Loc_u8ForCounter = NUM_ROWS; Loc_u8ForCounter < (NUM_COLS + NUM_ROWS); Loc_u8ForCounter++)
+	{
+		/*Set the row pins to be input pull up with high speed*/
+		Loc_enuGpioConfig.GPIO_Mode = GPIO_u8INPUT_PULLUP;
+		Loc_enuGpioConfig.GPIO_Speed = GPIO_Speed_Medium;
+
+		Loc_enuGpioConfig.GPIO_Port = Keypad_Pins[Loc_u8ForCounter].Keypad_Port;
+		Loc_enuGpioConfig.GPIO_Pin = Keypad_Pins[Loc_u8ForCounter].Keypad_Pin;
+
+		/*Initialize the pin*/
+		Loc_enuGpioErrorStatus = Gpio_enuPinConfigurationInit(&Loc_enuGpioConfig);
+
+		/*Check the error status of the gpio_init function*/
+		if(Loc_enuGpioErrorStatus != Gpio_enuOK)
+		{
+			/*Set Keypad_enuNotOk to Loc_enuReturnStatus as the the function called initialize the pin.*/
+			Loc_enuReturnStatus = Keypad_enuNotOk;
+		}/*end of if(Loc_enuGpioErrorStatus != Gpio_enuOk)*/
+		else
+		{
+			/*Do nothing*/
+		}/*end of else of if(Loc_enuGpioErrorStatus != Gpio_enuOk)*/
+
+
+	}/*end of for(Loc_u8ForCounter = NUM_ROWS; Loc_u8ForCounter < (NUM_COLS + NUM_ROWS); Loc_u8ForCounter++)*/
+
+	/*Return the error status to the caller*/
+	return Loc_enuReturnStatus;
+}
+
+
+extern Keypad_tenuErrorStatus  Keypad_u8GetPressedKey(pu8 Add_pu8PressedKey)
+{
+	/*Loc_enuReturnStatus is used to hold the error status of the function*/
+	Keypad_tenuErrorStatus Loc_enuReturnStatus = Keypad_enuOk;
+
+	if(Keypad_u8PressedAvaliable == 1)
+	{
+		/*Check if the pointer is pointing to null*/
+		if(Add_pu8PressedKey == NULL)
+		{
+			/*Set Keypad_enuNullPointer to Loc_enuReturnStatus as the pointer is pointing to null.*/
+			Loc_enuReturnStatus = Keypad_enuNullPointer;
+
+		}/*end of if(Add_pu8PressedKey == NULL)*/
+		else
+		{
+			/*Save the value of the pressed key into the pointer.*/
+			*Add_pu8PressedKey = Keypad_u8PressedKey;
+
+			/*Clear the flag that indicates a pressed key.*/
+			Keypad_u8PressedAvaliable = 0;
+
+		}/*end of else of if(Add_pu8PressedKey == NULL)*/
+
+	}/*end of if(Keypad_u8PressedAvaliable == ONE)*/
 	else
 	{
-		//do nothing
-	}
+		/*Set s to Loc_enuReturnStatus as now key has been pressed.*/
+		Loc_enuReturnStatus = Keypad_enuNotOk;
+
+	}/*end of else of if(Keypad_u8PressedAvaliable == ONE)*/
+
+	/*Return the error status to the caller*/
+	return Loc_enuReturnStatus;
 }
 

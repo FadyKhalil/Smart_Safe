@@ -23,10 +23,7 @@ void EEPROM_WriteByte(u16 Copy_u16Address, u8 Copy_u8Data)
 
 	I2C_enuSendStop(I2C_1);
 
-	for(volatile int i = 0; i < 2000; i++)
-	{
-
-	}
+	OS_vidDelay(5);
 }
 
 
@@ -37,6 +34,11 @@ void EEPROM_ReadByte(u16 Copy_u16Address, u8* Add_pu8Data)
 	I2C_enuSendAddressSynchronous(I2C_1, EEPROM_ADDRESS, I2C_WRITE);
 
 	I2C_enuSendByteSynchronous(I2C_1, (u8)Copy_u16Address);
+	OS_vidDelay(5);
+//	for(volatile int i = 0; i < 1000; i++)
+//	{
+//
+//	}
 
 	I2C_enuSendStart(I2C_1);
 

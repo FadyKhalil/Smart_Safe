@@ -8,6 +8,7 @@
 #include "Lcd.h"
 #include "Lcd_cfg.h"
 #include "Gpio.h"
+#include "Core.h"
 
 #define LCD_RUNNING_RESTORE_TICK_COUNT      2
 
@@ -76,205 +77,210 @@ void LCD_prv_send(Lcd_Request_t data)
 extern void LCD_Task()
 {
     
-    // number of ticks that every state needs in order to finish 
-    //  there operations (assuming tick time = 1ms)
-    static u8 Lcd_stateTickCount[] = {
-        // used only 1 time at the initialization
-        [START]         = 30,
-        [FUNCTION_SET]  = 1,
-        [DISPLAY_CTRL]  = 1,
-        [CLEAR_SCREEN]  = 2,
-        [ENTRY_MODE]    = 1,
+	while(1)
+	{
+		// number of ticks that every state needs in order to finish
+		//  there operations (assuming tick time = 1ms)
+		static u8 Lcd_stateTickCount[] = {
+			// used only 1 time at the initialization
+			[START]         = 30,
+			[FUNCTION_SET]  = 1,
+			[DISPLAY_CTRL]  = 1,
+			[CLEAR_SCREEN]  = 2,
+			[ENTRY_MODE]    = 1,
 
-        // used continuously on the operation 
-        //  so they need to be restored
-        [RUNNING]       = LCD_RUNNING_RESTORE_TICK_COUNT,
-    };
+			// used continuously on the operation
+			//  so they need to be restored
+			[RUNNING]       = LCD_RUNNING_RESTORE_TICK_COUNT,
+		};
 
-    static u8 Lcd_waitFlag = 0;
+		static u8 Lcd_waitFlag = 0;
 
-    // FSM
-    switch (Lcd_state)
-    {
-
-
-        case START:
-
-            // perform action (only waiting)
-            
-        	Lcd_stateTickCount[START]--;
-            if (Lcd_stateTickCount[START] > 0)
-            {
-            	Lcd_waitFlag = 1;
-            }
-            else
-            {
-                Lcd_state = FUNCTION_SET;
-                Lcd_waitFlag = 0;
-            }
-
-        break;
+		// FSM
+		switch (Lcd_state)
+		{
 
 
+			case START:
 
-        case FUNCTION_SET:
+				// perform action (only waiting)
 
-            if (Lcd_waitFlag == 0)
-            {
-                // perform action
-                LCD_prv_send(Lcd_Config[FUNCTION_SET]);
-            }
-            Lcd_stateTickCount[FUNCTION_SET]--;
-            if (Lcd_stateTickCount[FUNCTION_SET] > 0)
-            {
-            	Lcd_waitFlag = 1;
-            }
-            else
-            {
-                Lcd_state = DISPLAY_CTRL;
-                // enable = 0 at the end of signal
-                Gpio_enuSetPinValue(Lcd_Pins_cfg[Lcd_EN_PIN].port, Lcd_Pins_cfg[Lcd_EN_PIN].pin, 0b0);
-                Lcd_waitFlag = 0;
-            }
+				Lcd_stateTickCount[START]--;
+				if (Lcd_stateTickCount[START] > 0)
+				{
+					Lcd_waitFlag = 1;
+				}
+				else
+				{
+					Lcd_state = FUNCTION_SET;
+					Lcd_waitFlag = 0;
+				}
 
-        break;
+			break;
 
 
 
-        case DISPLAY_CTRL:
+			case FUNCTION_SET:
 
-            if (Lcd_waitFlag == 0)
-            {
-                // perform action
-                LCD_prv_send(Lcd_Config[DISPLAY_CTRL]);
-            }
-            Lcd_stateTickCount[DISPLAY_CTRL]--;
-            if (Lcd_stateTickCount[DISPLAY_CTRL] > 0)
-            {
-            	Lcd_waitFlag = 1;
-            }
-            else
-            {
-                Lcd_state = CLEAR_SCREEN;
-                // enable = 0 at the end of signal
-                Gpio_enuSetPinValue(Lcd_Pins_cfg[Lcd_EN_PIN].port, Lcd_Pins_cfg[Lcd_EN_PIN].pin, 0b0);
-                Lcd_waitFlag = 0;
-            }
+				if (Lcd_waitFlag == 0)
+				{
+					// perform action
+					LCD_prv_send(Lcd_Config[FUNCTION_SET]);
+				}
+				Lcd_stateTickCount[FUNCTION_SET]--;
+				if (Lcd_stateTickCount[FUNCTION_SET] > 0)
+				{
+					Lcd_waitFlag = 1;
+				}
+				else
+				{
+					Lcd_state = DISPLAY_CTRL;
+					// enable = 0 at the end of signal
+					Gpio_enuSetPinValue(Lcd_Pins_cfg[Lcd_EN_PIN].port, Lcd_Pins_cfg[Lcd_EN_PIN].pin, 0b0);
+					Lcd_waitFlag = 0;
+				}
 
-        break;
-
-
-
-        case CLEAR_SCREEN:
-
-            if (Lcd_waitFlag == 0)
-            {
-                // perform action
-                LCD_prv_send(Lcd_Config[CLEAR_SCREEN]);
-            }
-            Lcd_stateTickCount[CLEAR_SCREEN]--;
-            if (Lcd_stateTickCount[CLEAR_SCREEN] > 0)
-            {
-            	Lcd_waitFlag = 1;
-            }
-            else
-            {
-                Lcd_state = ENTRY_MODE;
-                // enable = 0 at the end of signal
-                Gpio_enuSetPinValue(Lcd_Pins_cfg[Lcd_EN_PIN].port, Lcd_Pins_cfg[Lcd_EN_PIN].pin, 0b0);
-                Lcd_waitFlag = 0;
-            }
-
-        break;
+			break;
 
 
 
-        case ENTRY_MODE:
+			case DISPLAY_CTRL:
 
-            if (Lcd_waitFlag == 0)
-            {
-                // perform action
-                LCD_prv_send(Lcd_Config[ENTRY_MODE]);
-            }
-            Lcd_stateTickCount[ENTRY_MODE]--;
-            if (Lcd_stateTickCount[ENTRY_MODE] > 0)
-            {
-            	Lcd_waitFlag = 1;
-            }
-            else
-            {
-                // based on registered requests
-                if (newReq == doneReq)
-                {
-                    Lcd_state = IDLE;
-                }
-                else
-                {
-                    Lcd_state = RUNNING;
-                }
-                // enable = 0 at the end of signal
-                Gpio_enuSetPinValue(Lcd_Pins_cfg[Lcd_EN_PIN].port, Lcd_Pins_cfg[Lcd_EN_PIN].pin, 0b0);
-                Lcd_waitFlag = 0;
-            }
+				if (Lcd_waitFlag == 0)
+				{
+					// perform action
+					LCD_prv_send(Lcd_Config[DISPLAY_CTRL]);
+				}
+				Lcd_stateTickCount[DISPLAY_CTRL]--;
+				if (Lcd_stateTickCount[DISPLAY_CTRL] > 0)
+				{
+					Lcd_waitFlag = 1;
+				}
+				else
+				{
+					Lcd_state = CLEAR_SCREEN;
+					// enable = 0 at the end of signal
+					Gpio_enuSetPinValue(Lcd_Pins_cfg[Lcd_EN_PIN].port, Lcd_Pins_cfg[Lcd_EN_PIN].pin, 0b0);
+					Lcd_waitFlag = 0;
+				}
 
-        break;
+			break;
 
 
 
+			case CLEAR_SCREEN:
 
-        
-        case IDLE:
+				if (Lcd_waitFlag == 0)
+				{
+					// perform action
+					LCD_prv_send(Lcd_Config[CLEAR_SCREEN]);
+				}
+				Lcd_stateTickCount[CLEAR_SCREEN]--;
+				if (Lcd_stateTickCount[CLEAR_SCREEN] > 0)
+				{
+					Lcd_waitFlag = 1;
+				}
+				else
+				{
+					Lcd_state = ENTRY_MODE;
+					// enable = 0 at the end of signal
+					Gpio_enuSetPinValue(Lcd_Pins_cfg[Lcd_EN_PIN].port, Lcd_Pins_cfg[Lcd_EN_PIN].pin, 0b0);
+					Lcd_waitFlag = 0;
+				}
 
-            // based on registered requests
-            if (newReq == doneReq)
-            {
-                Lcd_state = IDLE;
-            }
-            else
-            {
-                Lcd_state = RUNNING;
-            }
-
-        break;
-
-
-
-        case RUNNING:
-
-            if (Lcd_waitFlag == 0)
-            {
-                // perform action
-                LCD_prv_send(ReqBuffer[doneReq]);
-            }
-            Lcd_stateTickCount[RUNNING]--;
-            if (Lcd_stateTickCount[RUNNING] > 0)
-            {
-            	Lcd_waitFlag = 1;
-            }
-            else
-            {
-                // last request is handled
-                doneReq = (doneReq+1) % LCD_MAX_REQ_BUFFER_SIZE;
-                // based on registered requests
-                if (newReq == doneReq)
-                {
-                    Lcd_state = IDLE;
-                }
-                else
-                {
-                    Lcd_state = RUNNING;
-                }
-                Lcd_stateTickCount[RUNNING] = LCD_RUNNING_RESTORE_TICK_COUNT;
-                // enable = 0 at the end of signal
-                Gpio_enuSetPinValue(Lcd_Pins_cfg[Lcd_EN_PIN].port, Lcd_Pins_cfg[Lcd_EN_PIN].pin, 0b0);
-                Lcd_waitFlag = 0;
-            }
-
-        break;
+			break;
 
 
 
-    }
+			case ENTRY_MODE:
+
+				if (Lcd_waitFlag == 0)
+				{
+					// perform action
+					LCD_prv_send(Lcd_Config[ENTRY_MODE]);
+				}
+				Lcd_stateTickCount[ENTRY_MODE]--;
+				if (Lcd_stateTickCount[ENTRY_MODE] > 0)
+				{
+					Lcd_waitFlag = 1;
+				}
+				else
+				{
+					// based on registered requests
+					if (newReq == doneReq)
+					{
+						Lcd_state = IDLE;
+					}
+					else
+					{
+						Lcd_state = RUNNING;
+					}
+					// enable = 0 at the end of signal
+					Gpio_enuSetPinValue(Lcd_Pins_cfg[Lcd_EN_PIN].port, Lcd_Pins_cfg[Lcd_EN_PIN].pin, 0b0);
+					Lcd_waitFlag = 0;
+				}
+
+			break;
+
+
+
+
+
+			case IDLE:
+
+				// based on registered requests
+				if (newReq == doneReq)
+				{
+					Lcd_state = IDLE;
+				}
+				else
+				{
+					Lcd_state = RUNNING;
+				}
+
+			break;
+
+
+
+			case RUNNING:
+
+				if (Lcd_waitFlag == 0)
+				{
+					// perform action
+					LCD_prv_send(ReqBuffer[doneReq]);
+				}
+				Lcd_stateTickCount[RUNNING]--;
+				if (Lcd_stateTickCount[RUNNING] > 0)
+				{
+					Lcd_waitFlag = 1;
+				}
+				else
+				{
+					// last request is handled
+					doneReq = (doneReq+1) % LCD_MAX_REQ_BUFFER_SIZE;
+					// based on registered requests
+					if (newReq == doneReq)
+					{
+						Lcd_state = IDLE;
+					}
+					else
+					{
+						Lcd_state = RUNNING;
+					}
+					Lcd_stateTickCount[RUNNING] = LCD_RUNNING_RESTORE_TICK_COUNT;
+					// enable = 0 at the end of signal
+					Gpio_enuSetPinValue(Lcd_Pins_cfg[Lcd_EN_PIN].port, Lcd_Pins_cfg[Lcd_EN_PIN].pin, 0b0);
+					Lcd_waitFlag = 0;
+				}
+
+			break;
+
+
+
+		}
+
+		OS_vidDelay(1);
+	}
 }
 
 // LCD_requestRegister (async) function is used to register a new

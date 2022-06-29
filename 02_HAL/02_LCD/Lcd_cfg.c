@@ -44,11 +44,11 @@ const LcdCfg_t Lcd_Pins_cfg[] = {
     },
     [Lcd_EN_PIN] = {
         .port = GPIO_A,
-        .pin = GPIO_PIN10
+        .pin = GPIO_PIN11
     },
     [Lcd_RW_PIN] = {
         .port = GPIO_A,
-        .pin = GPIO_PIN09
+        .pin = GPIO_PIN12
     },
     [Lcd_RS_PIN] = {
         .port = GPIO_A,
