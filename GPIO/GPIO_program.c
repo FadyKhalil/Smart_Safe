@@ -104,14 +104,14 @@ GPIO_ErrorState_t GPIO_WritePinValue(GPIO_PinCfg_t * Add_pstrPinCfg,
 	/* Casting the variable to Access the GPIO Port Registers */
 	GPIOx_Register_t * loc_Port = Add_pstrPinCfg->port;
 	/* Checking the Range of Pin Value */
-	if (Copy_u8Value > GPIO_u32HIGH) {
+	if (Copy_u8Value > GPIO_u8HIGH) {
 		/* Return Gpio Error */
 		loc_enuRetrunStatus = GPIO_NOK;
 	} /* End of if (Copy_u8Value > GPIO_u32HIGH) */
 
 	else {
 		/*Check if the Value is Logical High */
-		if (Copy_u8Value == GPIO_u32HIGH) {
+		if (Copy_u8Value == GPIO_u8HIGH) {
 			loc_Port->GPIOx_BSRR = Add_pstrPinCfg->pin;
 		} /*End of if (Copy_u8Value == GPIO_u32HIGH) */
 		else {
@@ -137,11 +137,11 @@ GPIO_ErrorState_t GPIO_ReadPinValue(GPIO_PinCfg_t * Add_pstrPinCfg,
 	} /* End of if (Add_pstrPinCfg == NULL_PTR) */
 	else {
 		if (loc_Port->GPIOx_IDR & Add_pstrPinCfg->pin) {
-			*(Add_pu8Value) = GPIO_u32HIGH;
+			*(Add_pu8Value) = GPIO_u8HIGH;
 		} /* end of if (loc_Port->GPIOx_IDR & Add_pstrPinCfg->pin) */
 
 		else {
-			*(Add_pu8Value) = GPIO_u32LOW;
+			*(Add_pu8Value) = GPIO_u8LOW;
 		} /*end of inner else */
 
 	} /* end of outer else */

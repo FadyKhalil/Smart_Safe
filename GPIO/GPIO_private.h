@@ -9,8 +9,8 @@
  * Author     : Osama Hamdy
  *
  *******************************************************************************/
-#include<LIB/Std_types.h>
-#include<LIB/Bit_utils.h>
+#include "Std_types.h"
+#include"Bit_utils.h"
 #ifndef GPIO_PRIVATE_H_
 #define GPIO_PRIVATE_H_
 
