@@ -32,10 +32,6 @@ typedef struct
 /**********************************************************/
 /*************************Defines*************************/
 
-/*NULL POINTER*/
-#define	NULL	(void*)0
-
-
 /*Defining the GPIO register base to be point to the register belong to it*/
 
 #define GPIOA				((*(GPIO_Register *)0x40020000))

@@ -7,7 +7,7 @@
 ** **************************************************************************************/
 #ifndef _KEYPAD_H
 #define _KEYPAD_H
-  typedef u8 Keypad_ValueType;
+  typedef u8              Keypad_ValueType;
   typedef enum
   {
     Init = 0,
@@ -29,14 +29,13 @@
   #define SWITCH_PULLDOWN		GPIO_u8INPUT_PULLDOWN
   #define SWITCH_FLOATIN		GPIO_u8INPUT_FLOATING
   #define SWITCH_PUSHPULL		GPIO_u8OUTPUT_PUSHPULL
-  #define PORTA	GPIO_A
-  #define PORTB	GPIO_B
-  #define PORTC	GPIO_C
-  #define PORTD	GPIO_D
-  #define PORTE	GPIO_E
-  #define PORTH	GPIO_H
-  void Keypad_GetKeyValue(void);
-  Keypad_tenuErrorStatus KeyPad_vidInit(void);
-  void Keypad_u8GetPressedKey(pu8 Add_pu8Key);
-  
+  #define PORTA	            GPIO_A
+  #define PORTB	            GPIO_B
+  #define PORTC	            GPIO_C
+  #define PORTD	            GPIO_D
+  #define PORTE	            GPIO_E
+  #define PORTH	            GPIO_H
+  extern Keypad_tenuErrorStatus KeyPad_vidInit(void);
+  extern void Keypad_GetKeyValue_T(void);
+  extern void Keypad_u8GetPressedKey(pu8 Add_pu8Key);
 #endif
