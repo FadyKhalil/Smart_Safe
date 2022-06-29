@@ -1,18 +1,15 @@
-/*
- * EEPROM.c
- *
- *  Created on: Jun 28, 2022
- *      Author: fady
- */
-
-
-#include "../../Services/Std_types.h"
-#include "../../MCAL/I2C/I2C.h"
+/* **************************************************************************************
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
+**       Version     :	V01
+**       SWC         :	EEPROM
+**       Description :	EEPROM module files
+** **************************************************************************************/
+#include "StdTypes.h"
+#include "I2C.h"
 #include "EEPROM.h"
 
-
 #define EEPROM_ADDRESS		0xA0
-
 
 void EEPROM_WriteByte(u16 Copy_u16Address, u8 Copy_u8Data)
 {

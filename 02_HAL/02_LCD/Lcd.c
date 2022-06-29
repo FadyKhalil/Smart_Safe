@@ -386,7 +386,7 @@ extern res_t Lcd_displayNumber(s32 Num)
 		Loc_s32Val = Num;
 	else
 		Loc_s32Val = -Num;
-	for (Loc_u8Itr = 10; Loc_u8Itr >= 0 && Loc_s32Val; Loc_u8Itr--)
+	for (Loc_u8Itr = 10; Loc_s32Val; Loc_u8Itr--)
     {
         Loc_au8AllDigits[Loc_u8Itr] = Loc_s32Val % 10 + '0'; // store digits in ascii
         Loc_s32Val /= 10;

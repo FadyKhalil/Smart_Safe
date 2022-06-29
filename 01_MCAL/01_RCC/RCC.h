@@ -27,6 +27,7 @@
     RCC_enuGPIOH=7,
     RCC_enuDMA1=21,
     RCC_enuTIM2=32*2,
+    RCC_enuI2C1=32*2+21,
     RCC_enuTIM1=32*3,
     RCC_enuUSART1=32*3+4
   }RCC_tenuPer; 
