@@ -39,37 +39,37 @@ Keypad_tenuErrorStatus KeyPad_vidInit(void)
 
 		if (Gpio_Configuration.GPIO_Port == PORTA && !(Loc_u8CheckingClockON & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOA);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x01;
 		}
 
 		else if (Gpio_Configuration.GPIO_Port == PORTB && !((Loc_u8CheckingClockON >> 1) & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOB);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x02;
 		}
 
 		else if (Gpio_Configuration.GPIO_Port == PORTC && !((Loc_u8CheckingClockON >> 2) & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOC);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x04;
 		}
 
 		else if (Gpio_Configuration.GPIO_Port == PORTD && !((Loc_u8CheckingClockON >> 3) & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOD);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x08;
 		}
 
 		else if (Gpio_Configuration.GPIO_Port == PORTE && !((Loc_u8CheckingClockON >> 4) & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOE);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x10;
 		}
 
 		else if (Gpio_Configuration.GPIO_Port == PORTH && !((Loc_u8CheckingClockON >> 5) & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOH);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x20;
 		}
 
@@ -91,37 +91,37 @@ Keypad_tenuErrorStatus KeyPad_vidInit(void)
 
 		if (Gpio_Configuration.GPIO_Port == PORTA && !(Loc_u8CheckingClockON & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOA);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x01;
 		}
 
 		else if (Gpio_Configuration.GPIO_Port == PORTB && !((Loc_u8CheckingClockON >> 1) & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOB);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x02;
 		}
 
 		else if (Gpio_Configuration.GPIO_Port == PORTC && !((Loc_u8CheckingClockON >> 2) & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOC);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x04;
 		}
 
 		else if (Gpio_Configuration.GPIO_Port == PORTD && !((Loc_u8CheckingClockON >> 3) & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOD);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x08;
 		}
 
 		else if (Gpio_Configuration.GPIO_Port == PORTE && !((Loc_u8CheckingClockON >> 4) & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOE);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x10;
 		}
 
 		else if (Gpio_Configuration.GPIO_Port == PORTH && !((Loc_u8CheckingClockON >> 5) & 0x01))
 		{
-			Rcc_SetAHB1Peripheral(SET_RESET_GPIOH);
+			
 			Loc_u8CheckingClockON = Loc_u8CheckingClockON | 0x20;
 		}
 
