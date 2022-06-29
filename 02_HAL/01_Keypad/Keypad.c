@@ -1,13 +1,11 @@
-/*
- * Keypad.c
- *
- *  Created on: Apr 10, 2022
- *      Author: fady
- */
-
-#include "../../Services/Std_types.h"
-#include "../../MCAL/GPIO/Gpio.h"
-#include "../../MCAL/RCC/Rcc.h"
+/* **************************************************************************************
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
+**       Version     :	V01
+**       SWC         :	Keypad
+**       Description :	Keypad module files 
+** **************************************************************************************/
+#include "Gpio.h"
 #include "Keypad.h"
 #include "Keypad_cfg.h"
 

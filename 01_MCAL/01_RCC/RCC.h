@@ -1,6 +1,6 @@
 /* **************************************************************************************
-**       Author      :	Michael S. Ibrahim
-**       Date        :	March 07, 2022
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
 **       Version     :	V01
 **       SWC         :	RCC
 **       Description :	RCC module files for STM32F401CC

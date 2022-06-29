@@ -1,10 +1,10 @@
-/*
- * Lcd_cfg.h
- *
- *  Created on: Apr 9, 2022
- *      Author: Ahmed-Yehia
- */
-
+/* **************************************************************************************
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
+**       Version     :	V01
+**       SWC         :	LCD
+**       Description :	LCD module files 
+** **************************************************************************************/
 #ifndef LCD_LCD_CFG_H_
 #define LCD_LCD_CFG_H_
 

@@ -1,15 +1,12 @@
-/*
- * Gpio.c
- *
- *  Created on: Mar 20, 2022
- *      Author: fady
- */
-
-
-#include "../../Services/Std_types.h"
+/* **************************************************************************************
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
+**       Version     :	V01
+**       SWC         :	GPIO
+**       Description :	GPIO module files for STM32F401CC
+** **************************************************************************************/
+#include "StdTypes.h"
 #include "Gpio.h"
-
-
 
 /**********************************************************/
 /**************************Types**************************/
@@ -423,7 +420,7 @@ Gpio_tenuErrorStatus Gpio_enuHelperAfOutput(GPIO_tstrPinConfiguration* Add_pstrP
 				Loc_u32TempRegister &= ~(1 << (Loc_u8Counter));
 
 				/*Set the Pin to Type*/
-				Loc_u32TempRegister |= (Loc_u8AfOtyper << (Loc_u8Counter << 1));
+				Loc_u32TempRegister |= (Loc_u8AfOtyper << Loc_u8Counter);
 
 				/*Store the new variable to register Moder*/
 				((Gpio_tstrRegister*)(Add_pstrPinConfg->GPIO_Port))->Otyper = Loc_u32TempRegister;

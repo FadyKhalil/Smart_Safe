@@ -1,14 +1,15 @@
-/*
- * Lcd.h
- *
- *  Created on: Apr 9, 2022
- *      Author: Ahmed-Yehia
- */
+/* **************************************************************************************
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
+**       Version     :	V01
+**       SWC         :	LCD
+**       Description :	LCD module files 
+** **************************************************************************************/
 
 #ifndef LCD_LCD_H_
 #define LCD_LCD_H_
 
-#include "../../Services/Std_types.h"
+#include "StdTypes.h"
 
 #define LCD_REQ_TYP__CMD                                    0x00
 #define LCD_REQ_TYP__DATA                                   0x02

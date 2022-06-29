@@ -1,6 +1,6 @@
 /* **************************************************************************************
-**       Author      :	Michael S. Ibrahim
-**       Date        :	March 23, 2022
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
 **       Version     :	V01
 **       SWC         :	Systick
 **       Description :	Systick timer module files

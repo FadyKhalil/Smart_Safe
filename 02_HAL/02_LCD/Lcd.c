@@ -1,13 +1,13 @@
-/*
- * Led.c
- *
- *  Created on: Apr 9, 2022
- *      Author: Ahmed-Yehia
- */
-
+/* **************************************************************************************
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
+**       Version     :	V01
+**       SWC         :	LCD
+**       Description :	LCD module files 
+** **************************************************************************************/
 #include "Lcd.h"
 #include "Lcd_cfg.h"
-#include "../../MCAL/GPIO/Gpio.h"
+#include "Gpio.h"
 
 #define LCD_RUNNING_RESTORE_TICK_COUNT      2
 

@@ -1,6 +1,6 @@
 /* **************************************************************************************
-**       Author      :	Michael S. Ibrahim
-**       Date        :	February 07, 2022
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
 **       Version     :	V01
 **       SWC         :	StdTypes
 **       Description :	Definition of standard data types
@@ -21,6 +21,15 @@
   typedef u8*                       pu8;
   typedef u16*                      pu16;
   typedef f64*                      pf64;
+  typedef signed char *             ps8;
+  typedef signed short int *        ps16;
+  typedef unsigned int *            pu32;
+  typedef signed int *              ps32;
+  typedef unsigned long long int *  pu64;
+  typedef signed long long int *    ps64;
+  typedef float *                   pf32;
+  typedef long double *             pf128;
+
   typedef void (*tpfCallback)(void);
   /* /////////////////////////////// Defined Types ////////////////////////////////////////////// */
   /* Buffer type */
