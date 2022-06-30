@@ -11,4 +11,12 @@
 	#define SIZE				                            ((u8)(10))
 	#define TASK_STACK_SIZE			                    ((u8)(100))
 	/* /////////////////////////////////////////////////////////////////////////////////////////// */
+
+
+	/*//////////////////////////////Function Prototype ///////////////////////////////////////////*/
+	static void Enter_Pass(void);
+	static u32 Receive_Password(void);
+	static void LogIn(void);
+	static void NewUser(void);
+
 #endif
