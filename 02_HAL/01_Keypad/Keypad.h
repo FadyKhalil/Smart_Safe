@@ -1,10 +1,10 @@
-/*
- * Keypad.h
- *
- *  Created on: Apr 14, 2022
- *      Author:
- */
-
+/* **************************************************************************************
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
+**       Version     :	V01
+**       SWC         :	Keypad
+**       Description :	Keypad module files
+** **************************************************************************************/
 #ifndef HAL_KEYPAD_KEYPAD_H_
 #define HAL_KEYPAD_KEYPAD_H_
 

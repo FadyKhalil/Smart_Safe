@@ -16,6 +16,7 @@
 #include "Keypad.h"
 #include "Lcd.h"
 #include "EEPROM.h"
+#include "Stepper.h"
 /* Own headers */
 #include "SmartSafe.h"
 #include "SmartSafe_prv.h"
@@ -29,7 +30,8 @@
 
 /* //////////////////////////////// Global Variables //////////////////////////////////////// */
 /* Tasks Stacks */
-u32 SmartSafe_Stack[TASK_STACK_SIZE];
+u32 SmartSafeTask_Stack[TASK_STACK_SIZE];
+u32 StepperTask_Stack[TASK_STACK_SIZE];
 u32 KeypadTask_Stack[TASK_STACK_SIZE];
 u32 LcdTask_Stack[TASK_STACK_SIZE];
 /*Clear Request for LCD*/
@@ -45,18 +47,20 @@ static volatile u8 SmartSafe_u8PasswordExistance = ZERO_INIT;
 
 /* /////////////////////////// Entry Point ////////////////////// */
 int main(void) {
-	/*Initialize the hardware*/
+	/*Init the hardware*/
 	RCC_enuTurnClk(RCC_u8HSI, RCC_enuOn);
 	RCC_enuSelectSysClk(RCC_u8RUN_HSI);
 	RCC_enuPerClk(RCC_enuGPIOA, RCC_enuOn);
 	RCC_enuPerClk(RCC_enuGPIOB, RCC_enuOn);
 	RCC_enuPerClk(RCC_enuUSART1, RCC_enuOn);
 	RCC_enuPerClk(RCC_enuI2C1, RCC_enuOn);
-	/*Initialize the LCD*/
+	/*Init the LCD*/
 	LCD_init();
-	/*Initialzie the keypad*/
+	/*Init the keypad*/
 	Keypad_enuInit();
-	/*Intialize the EEPROM*/
+  /* Init the Stepper */ 
+  Stepper_vidInit();
+  /*Init the EEPROM*/
 	EEPROM_vidInit();
 	EEPROM_ReadByte(0, (u8*)&EEPROM_arr_Buffer[0]);
 	EEPROM_ReadByte(1, (u8*)&EEPROM_arr_Buffer[1]);
@@ -72,11 +76,12 @@ int main(void) {
     /* MISRA */
   }/* else */
 
-	/*Initialize task smart safe*/
-	OS_vidCreateTask(SmartSafe_T, 0, SmartSafe_Stack, TASK_STACK_SIZE);
+	/* Init task smart safe*/
+	OS_vidCreateTask(SmartSafe_T, 0, SmartSafeTask_Stack, TASK_STACK_SIZE);
 	OS_vidCreateTask(Keypad_GetKeyValue_T, 2, KeypadTask_Stack, TASK_STACK_SIZE);
 	OS_vidCreateTask(LCD_Task, 1, LcdTask_Stack, TASK_STACK_SIZE);
-	/*Os start*/
+	OS_vidCreateTask(Stepper_vidMasterStepper_T, 3, StepperTask_Stack, TASK_STACK_SIZE);
+	/* Os start */
 	OS_vidStart();
 	while (1);
 
@@ -176,6 +181,7 @@ static void Enter_Pass(void)
 	/*Checking Flag*/
 	static volatile u8 Loc_u8LoopBreaker = ZERO_INIT;
 	static volatile u32 ReceivePassword;
+  static volatile Stepper_enuState_t Loc_enuState;
 	/*****/
   /*Checking the password with the password stored in the EEPROM*/
 	while(!Loc_u8LoopBreaker)
@@ -189,7 +195,13 @@ static void Enter_Pass(void)
       LCD_displayString((u8*)"OK");
       Loc_u8PasswordWrong_Counter = ZERO_INIT;
       SmartSafe_enuLockState ^= 1;
-      /* ////////////////////////////////////////// Call Stepper Fn ////////////////////////////// */
+
+      Loc_enuState = Stepper_vidGetState(STEPPER_u8STEPPER0);
+      if(Loc_enuState != Stepper_enuState_Busy)
+      {
+        Stepper_vidSetDirection(STEPPER_u8STEPPER0, Stepper_enuDirection_Clockwise);
+        Stepper_vidMoveAngle(STEPPER_u8STEPPER0, 90);
+      }/* if */
 			OS_vidDelay(1000);
 			LCD_requestRegister(Lcd_Req_Clear);
 		}/* if */
@@ -311,5 +323,14 @@ static void NewUser(void)
     Loc_u8MatchingFlag = ZERO_INIT;
     OS_vidDelay(1);
   }/* if */
+  else
+  {
+    LCD_requestRegister(Lcd_Req_Clear);
+    LCD_Goto(0, 1);
+    LCD_displayString((u8*)"Unlock The Safe!"); 
+    OS_vidDelay(2000);
+    LCD_requestRegister(Lcd_Req_Clear);
+    OS_vidDelay(1);
+  }/* else */
 }/* NewUser */
 /* ////////////////////////////////////////////////////////////////////////////////////////// */

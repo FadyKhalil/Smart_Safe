@@ -1,18 +1,14 @@
-/*
- * Keypad_cfg.c
- *
- *  Created on: Apr 14, 2022
- *      Author:
- */
-
-
+/* **************************************************************************************
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
+**       Version     :	V01
+**       SWC         :	Keypad
+**       Description :	Keypad module files
+** **************************************************************************************/
 #include "StdTypes.h"
 #include "Gpio.h"
 #include "Keypad.h"
 #include "Keypad_cfg.h"
-
-
-
 const Keypad_cfg_t Keypad_Pins[NUM_COLS + NUM_ROWS] =
 	   {
 			   [KEYPAD_ROW0] =

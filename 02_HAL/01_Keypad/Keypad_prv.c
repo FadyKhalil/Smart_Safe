@@ -1,19 +1,16 @@
-/*
- * Keypad_prv.c
- *
- *  Created on: Apr 14, 2022
- *      Author:
- */
-
-
+/* **************************************************************************************
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
+**       Version     :	V01
+**       SWC         :	Keypad
+**       Description :	Keypad module files
+** **************************************************************************************/
 #include "StdTypes.h"
 #include "Gpio.h"
 #include "Core.h"
 #include "Keypad.h"
 #include "Keypad_prv.h"
 #include "Keypad_cfg.h"
-
-
 
 /*Keypad_u8PressedAvaliable is used as a flag for the Keypad_enuGetKey function*/
 u8 Keypad_u8PressedAvaliable = 0;

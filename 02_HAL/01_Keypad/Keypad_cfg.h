@@ -1,20 +1,17 @@
-/*
- * Keypad_cfg.h
- *
- *  Created on: Apr 14, 2022
- *      Author:
- */
-
+/* **************************************************************************************
+**       Author      :	Smart Safe Group
+**       Date        :	June 1, 2022
+**       Version     :	V01
+**       SWC         :	Keypad
+**       Description :	Keypad module files
+** **************************************************************************************/
 #ifndef HAL_KEYPAD_KEYPAD_CFG_H_
 #define HAL_KEYPAD_KEYPAD_CFG_H_
-
-
 /*
  * Number of rows and columns of the keypad
  */
 #define NUM_ROWS		4
 #define NUM_COLS		4
-
 /*
  * Rows numbering in regards to the pins configuration array
  */

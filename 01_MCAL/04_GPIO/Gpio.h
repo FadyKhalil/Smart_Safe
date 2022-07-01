@@ -280,8 +280,6 @@ Gpio_tenuErrorStatus Gpio_enuSetPinValue(void* Add_vidGpioPort, u16 Copy_u8GpioP
  * 						@ Add_pu8PinValue:
  * 						--> Variable to get the value
  *
-
- *
  * Return:				Return Error Status if any
  *
  * */
