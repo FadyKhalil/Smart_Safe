@@ -21,7 +21,6 @@ typedef struct
 	u32 TRISE;
 	u32 FLTR;
 }I2C_Reg;
-//I2C1 (PB6/PB7)
 /**************DEFINE**************/
 #define I2C(PROTOCOL)		((volatile I2C_Reg*)(PROTOCOL))
 /*Accessing bit in CR1 Register*/
@@ -45,15 +44,6 @@ typedef struct
 #define RXE_BIT					6
 /*Initializing*/
 #define PREPHERAL_ENABLE		1
-/*Private Global Variable*/
-
-#define TIMEOUT					500
-//static u8 I2C_Data_Send = 0;
-
-u16 I2c_Timeout = 0;
-u8 Timeout_Flag = 0;
-
-
 I2C_enuErrorStatus I2C_enuVidInit(const I2C_Config* ConfigPtr)
 {
 	I2C_enuErrorStatus Loc_enuErrorStatus = I2C_enuOk;
@@ -91,7 +81,7 @@ I2C_enuErrorStatus I2C_enuVidInit(const I2C_Config* ConfigPtr)
 			 *
 			 * */
 			Loc_u16TempRegister = ((u32)16000000/ConfigPtr->Desired_Duty_Cycle)/2;
-		}
+		}/* if */
 		I2C(ConfigPtr->Protocol)->CCR |= Loc_u16TempRegister;
 		/*	the I2C_CR2 register, the value of FREQ[5:0] bits is equal to 0x08 and TPCLK1 = 125
 		 * 	therefore the TRISE[5:0] bits must be programmed with 9.
@@ -102,38 +92,27 @@ I2C_enuErrorStatus I2C_enuVidInit(const I2C_Config* ConfigPtr)
 		I2C(ConfigPtr->Protocol)->CR1 |= ConfigPtr->Clock_Stretching << CLOCK_BIT_STRETCHING;
 		/*Prepheral Enable*/
 		I2C(ConfigPtr->Protocol)->CR1 |= PREPHERAL_ENABLE << PREPHERAL_BIT_ENABLE;
-	}
+	}/* if */
 	else
 	{
 		Loc_enuErrorStatus = I2C_enuNullPointer;
-	}
+	}/* else */
 	return Loc_enuErrorStatus;
-}
+}/* I2C_enuVidInit */
 void I2C_enuSendStart(void* Protocol)
 {
-	I2c_Timeout = 0;
-//	Timeout_Flag = 0;
 	if(Protocol)
 	{
 		/*Start Condition*/
 		I2C(Protocol)->CR1 |= ENABLE << START_BIT;
 		/*Wait till SB is set*/
-		while(((I2C(Protocol)->SR1) == 0) && (I2c_Timeout < TIMEOUT))
-		{
-			I2c_Timeout++;
-		}
-		if(I2c_Timeout == TIMEOUT)
-		{
-			Timeout_Flag = 1;
-		}
-
-	}
+		while((I2C(Protocol)->SR1) == 0);
+	}/* if */
 	else
 	{
 		/*Do nothing*/
-	}
-
-}
+	}/* else */
+}/* I2C_enuSendStart */
 void I2C_enuSendStop(void* Protocol)
 {
 
@@ -141,14 +120,14 @@ void I2C_enuSendStop(void* Protocol)
 	{
 		/*Stop Condition*/
 		I2C(Protocol)->CR1 |= ENABLE << STOP_BIT;
-	}
-
-}
+	}/* if */
+  else
+  {
+    /* MISRA */
+  }
+}/* I2C_enuSendStop */
 I2C_enuErrorStatus I2C_enuSendAddressSynchronous(void* Protocol, I2C_Slave_Add Copy_u16Adress, u8 Copy_u8ReadOrWrite)
 {
-
-	I2c_Timeout = 0;
-//	Timeout_Flag = 0;
 	I2C_enuErrorStatus Loc_enuErrorStatus = I2C_enuOk;
 	/*Check if its NULL*/
 	if(Protocol)
@@ -161,104 +140,58 @@ I2C_enuErrorStatus I2C_enuSendAddressSynchronous(void* Protocol, I2C_Slave_Add C
 		/*Write the Address*/
 		I2C(Protocol)->DR = Loc_u8TempRegister;
 		/*Wait BTF to be set to check the data is sent*/
-		while((((I2C(Protocol)->SR1) & (1 << ADDR_BIT)) == 0) && (I2c_Timeout < TIMEOUT))
-		{
-			I2c_Timeout++;
-		}
-		if(I2c_Timeout == TIMEOUT)
-		{
-			Timeout_Flag = 1;
-		}
-
+		while(((I2C(Protocol)->SR1) & (1 << ADDR_BIT)) == 0);
 		/*Clear the Register for next step*/
 		(void)(I2C(Protocol)->SR1|I2C(Protocol)->SR2);
-	}
+	}/* if */
 	else
 	{
 		Loc_enuErrorStatus = I2C_enuNullPointer;
-	}
+	}/* else */
 	/*Return the error Status if any*/
-
 	return Loc_enuErrorStatus;
-}
+}/* I2C_enuSendAddressSynchronous */
 I2C_enuErrorStatus I2C_enuSendByteSynchronous(void* Protocol, u8 Copy_u8Data)
 {
-
-	I2c_Timeout = 0;
-//	Timeout_Flag = 0;
-
 	I2C_enuErrorStatus Loc_enuErrorStatus = I2C_enuOk;
 	if(Protocol)
 	{
 		/*Check the transmitter flag
 		 * Check the TXE flag
 		 * */
-		while((((I2C(Protocol)->SR1 >> TXE_BIT) & 1) == 0) && (I2c_Timeout < TIMEOUT))
-		{
-			I2c_Timeout++;
-		}
-		if(I2c_Timeout == TIMEOUT)
-		{
-			Timeout_Flag = 1;
-		}
+		while(((I2C(Protocol)->SR1 >> TXE_BIT) & 1) == 0);
 		/*Write the Data*/
 		I2C(Protocol)->DR = Copy_u8Data;
 		/*Check if the Data transmit by checking BTF flag*/
-		while((((I2C(Protocol)->SR1 >> BTF_BIT) & 1) == 0) && (I2c_Timeout < TIMEOUT))
-		{
-//			I2c_Timeout++;
-		}
-		if(I2c_Timeout == TIMEOUT)
-		{
-			Timeout_Flag = 1;
-		}
-	}
+		while(((I2C(Protocol)->SR1 >> BTF_BIT) & 1) == 0);
+	}/* if */
 	else
 	{
 		Loc_enuErrorStatus = I2C_enuNullPointer;
-	}
+	}/* else */
 	return Loc_enuErrorStatus;
-}
+}/* I2C_enuSendByteSynchronous */
 I2C_enuErrorStatus I2C_enuReceiveByteSynchronous(void* Protocol, pu8 Add_pu8Data)
 {
-	I2c_Timeout = 0;
-//	Timeout_Flag = 0;
-
 	I2C_enuErrorStatus Loc_enuErrorStatus = I2C_enuOk;
 	if(Protocol)
 	{
-
 		/*Disable the acknowledge*/
 		I2C(Protocol)->CR1 |= 0 << ACK;
-
 		/*Delete ADDR register*/
 		(void)(I2C(Protocol)->SR1|I2C(Protocol)->SR2);
-
 		/*Send stop*/
 		I2C_enuSendStop(I2C_1);
-
-
-//		(void)I2C(Protocol)->DR;
-
 		/*Wait the data to be transfer
 		 * Check The RXE flag in SR1 register
 		 * */
-//		while((((I2C(Protocol)->SR1 >> RXE_BIT) & 1) == 0) && (I2c_Timeout < TIMEOUT))
-//		{
-////			I2c_Timeout++;
-//		}
-//		if(I2c_Timeout == TIMEOUT)
-//		{
-//			Timeout_Flag = 1;
-//		}
-
+		while(((I2C(Protocol)->SR1 >> RXE_BIT) & 1) == 0);
 		/*Receive The data*/
 		*Add_pu8Data = I2C(Protocol)->DR;
-
-	}
+	}/* if */
 	else
 	{
 		Loc_enuErrorStatus = I2C_enuNullPointer;
-	}
+	}/* else */
 	return Loc_enuErrorStatus;
-}
+}/* I2C_enuReceiveByteSynchronous */
