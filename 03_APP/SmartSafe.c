@@ -195,11 +195,10 @@ static void Enter_Pass(void)
       LCD_displayString((u8*)"OK");
       Loc_u8PasswordWrong_Counter = ZERO_INIT;
       SmartSafe_enuLockState ^= 1;
-
       Loc_enuState = Stepper_vidGetState(STEPPER_u8STEPPER0);
       if(Loc_enuState != Stepper_enuState_Busy)
       {
-        Stepper_vidSetDirection(STEPPER_u8STEPPER0, Stepper_enuDirection_Clockwise);
+        Stepper_vidSetDirection(STEPPER_u8STEPPER0, SmartSafe_enuLockState);
         Stepper_vidMoveAngle(STEPPER_u8STEPPER0, 90);
       }/* if */
 			OS_vidDelay(1000);
