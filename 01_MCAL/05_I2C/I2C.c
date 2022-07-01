@@ -206,7 +206,7 @@ I2C_enuErrorStatus I2C_enuSendByteSynchronous(void* Protocol, u8 Copy_u8Data)
 		/*Check if the Data transmit by checking BTF flag*/
 		while((((I2C(Protocol)->SR1 >> BTF_BIT) & 1) == 0) && (I2c_Timeout < TIMEOUT))
 		{
-			I2c_Timeout++;
+//			I2c_Timeout++;
 		}
 		if(I2c_Timeout == TIMEOUT)
 		{
@@ -243,14 +243,14 @@ I2C_enuErrorStatus I2C_enuReceiveByteSynchronous(void* Protocol, pu8 Add_pu8Data
 		/*Wait the data to be transfer
 		 * Check The RXE flag in SR1 register
 		 * */
-		while((((I2C(Protocol)->SR1 >> RXE_BIT) & 1) == 0) && (I2c_Timeout < TIMEOUT))
-		{
-			I2c_Timeout++;
-		}
-		if(I2c_Timeout == TIMEOUT)
-		{
-			Timeout_Flag = 1;
-		}
+//		while((((I2C(Protocol)->SR1 >> RXE_BIT) & 1) == 0) && (I2c_Timeout < TIMEOUT))
+//		{
+////			I2c_Timeout++;
+//		}
+//		if(I2c_Timeout == TIMEOUT)
+//		{
+//			Timeout_Flag = 1;
+//		}
 
 		/*Receive The data*/
 		*Add_pu8Data = I2C(Protocol)->DR;

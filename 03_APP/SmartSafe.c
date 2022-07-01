@@ -9,6 +9,7 @@
 #include "StdTypes.h"
 /* OS */
 #include "Core.h"
+#include "Port.h"
 /* MCAL */
 #include "RCC.h"
 /* HAL */
@@ -63,7 +64,9 @@ int main(void) {
 	Keypad_enuInit();
 
 	/*Intialize the EEPROM*/
+	Port_vidDisableInterrupt();
 	EEPROM_vidInit();
+	Port_vidEnableInterrupt();
 
 	/*Initialize task smart safe*/
 	OS_vidCreateTask(SmartSafe_T, 0, SmartSafe_Stack, TASK_STACK_SIZE);
@@ -88,10 +91,10 @@ void SmartSafe_T(void) {
 	/*To look at the state return from the keypad to know
 	 * whether a keypressed or not
 	 * */
-	Keypad_tenuErrorStatus Keypad_Status;
+	static volatile Keypad_tenuErrorStatus Keypad_Status;
 
 	/*Variable to store the return key from keypad*/
-	u8 Loc_u8Key = ZERO_INIT;
+	static u8 Loc_u8Key = ZERO_INIT;
 
 	/*Welcome Screen*/
 	LCD_displayString((u8*)"WELCOME TO SMART");
@@ -144,36 +147,40 @@ static void Enter_Pass(void)
 
 
 	/*counter to check whether the password enter is wrong*/
-	u8 Loc_u8PasswordWrong_Counter = 0;
+	static volatile u8 Loc_u8PasswordWrong_Counter = 0;
 
 	/*Checking Flag*/
-	u8 Loc_u8LoopBreaker = 0;
+	static volatile u8 Loc_u8LoopBreaker = 0;
 
 	/*Received and saved password*/
-	u8 EEPROM_arr_Buffer[4];
-	u32 ReceivePassword;
+	static u8 EEPROM_arr_Buffer[4];
+	static volatile u32 ReceivePassword;
 
-	tstrBuffer EEPROM_Buffer = {
-			.Data = EEPROM_arr_Buffer,
-			.Index = ZERO_INIT,
-			.Size = 4
-	};
+	static volatile u8 Loc_u8size = 4;
 
+	static volatile u8 Loc_u8Index = 0;
 	/*****/
 
 	/*Fetch the password in the EEPROM*/
-	while(EEPROM_Buffer.Index < EEPROM_Buffer.Size)
-	{
-		EEPROM_ReadByte(EEPROM_Buffer.Index, EEPROM_Buffer.Data+EEPROM_Buffer.Index);
-//		while(Timeout_Flag == 1)
-//		{
-//			EEPROM_ReadByte(EEPROM_Buffer.Index, EEPROM_Buffer.Data+EEPROM_Buffer.Index);
-//		}
-		OS_vidDelay(5);
-
-		EEPROM_Buffer.Index++;
-
-	}/*while*/
+//	while(Loc_u8Index < Loc_u8size)
+//	{
+//	Port_vidDisableInterrupt();
+	Port_vidDisableInterrupt();
+	EEPROM_ReadByte(0, &EEPROM_arr_Buffer[0]);
+	Port_vidEnableInterrupt();
+//	OS_vidDelay(2);
+	Port_vidDisableInterrupt();
+	EEPROM_ReadByte(1, &EEPROM_arr_Buffer[1]);
+	Port_vidEnableInterrupt();
+//	OS_vidDelay(2);
+	EEPROM_ReadByte(2, &EEPROM_arr_Buffer[2]);
+//	OS_vidDelay(2);
+	EEPROM_ReadByte(3, &EEPROM_arr_Buffer[3]);
+//	OS_vidDelay(2);
+	Port_vidEnableInterrupt();
+//
+//		Loc_u8Index++;
+//	}/*while*/
 
 	/*Checking the password with the password stored in the EEPROM*/
 	while(!Loc_u8LoopBreaker)
@@ -181,8 +188,9 @@ static void Enter_Pass(void)
 
 		ReceivePassword = Receive_Password();
 
+		trace_printf("%d", EEPROM_arr_Buffer[4]);
 		/*Checking the EEPROM */
-		if((*((u32*)(EEPROM_Buffer.Data))) == ReceivePassword)
+		if((*((u32*)(EEPROM_arr_Buffer))) == ReceivePassword)
 		{
 			Loc_u8LoopBreaker = 1;
 
@@ -231,44 +239,48 @@ static void Enter_Pass(void)
 static u32 Receive_Password(void)
 {
 
-	u8 Received_arr_Buffer[4];
+	static volatile u8 Received_arr_Buffer[4];
 
-	tstrBuffer Received_Buffer = {
-			.Data = Received_arr_Buffer,
-			.Index = ZERO_INIT,
-			.Size = 4
-	};
+	static volatile u8 Loc_u8size = 4;
+
+	static volatile u8 Loc_u8Index = 0;
 
 	/*To look at the state return from the keypad to know
 	 * whether a keypressed or not
 	 * */
-	Keypad_tenuErrorStatus Keypad_Status;
+	static volatile Keypad_tenuErrorStatus Keypad_Status;
 
 	/*Variable to store the return key from keypad*/
-	u8 Loc_u8Key = ZERO_INIT;
+	static u8 Loc_u8Key = ZERO_INIT;
+
+	LCD_requestRegister(Lcd_Req_Clear);
+
+	LCD_Goto(0,1);
 
 	/*Display enter password for user*/
 	LCD_displayString((u8*)"ENTER PASS: ");
 
+	OS_vidDelay(100);
 
-	while(Received_Buffer.Index < Received_Buffer.Size)
+	while(Loc_u8Index < Loc_u8size)
 	{
 
 		/*Cheking the return value*/
+		OS_vidDelay(5);
 		Keypad_Status = Keypad_u8GetPressedKey(&Loc_u8Key);
 
 		/*Condition to check*/
 		if (Keypad_Status == Keypad_enuOk)
 		{
 			LCD_displayCharacter('*');
-			Received_Buffer.Data[Received_Buffer.Index] = Loc_u8Key;
-			Received_Buffer.Index++;
+			Received_arr_Buffer[Loc_u8Index++] = Loc_u8Key;
 		}
 
 	}/*while*/
 
+	Loc_u8Index = 0;
 
-	return (*((u32*)(Received_Buffer.Data)));
+	return (*((u32*)(Received_arr_Buffer)));
 
 }/*Receive Password*/
 
@@ -277,11 +289,13 @@ static u32 Receive_Password(void)
 static void LogIn(void)
 {
 	/*variable for checking EEPROM*/
-	u8 Loc_Checking_Password ;
+	static u8 Loc_Checking_Password ;
 
-	OS_vidDelay(500);
+//	OS_vidDelay(5);
 	/*Check the first byte in the EEPROM*/
+	Port_vidDisableInterrupt();
 	EEPROM_ReadByte(0, &Loc_Checking_Password);
+	Port_vidEnableInterrupt();
 //	while(Timeout_Flag == 1)
 //	{
 //		EEPROM_ReadByte(0, &Loc_Checking_Password);
@@ -312,26 +326,27 @@ static void LogIn(void)
 
 static void NewUser(void)
 {
-	volatile u8 Loc_u8MatchingFlag = 0;
+	static volatile u8 Loc_u8MatchingFlag = 0;
 
 	/*To look at the state return from the keypad to know
 	 * whether a keypressed or not
 	 * */
-	Keypad_tenuErrorStatus Keypad_Status;
+	static volatile Keypad_tenuErrorStatus Keypad_Status;
 
 	/*Variable to store the return key from keypad*/
-	u8 Loc_u8Key = ZERO_INIT;
-	volatile u32 Loc_u32FirstEnter = ZERO_INIT, Loc_u32SecondEnter = ZERO_INIT;
+	static u8 Loc_u8Key = ZERO_INIT;
+	static volatile u8 Loc_u8FirstEnter[4] = {ZERO_INIT};
+	static volatile u8 Loc_u8SecondEnter[4] = {ZERO_INIT};
 	/*Counter Variable*/
-	volatile u8 Loc_u8CounterSizePass = ZERO_INIT;
+	static volatile u8 Loc_u8CounterSizePass = ZERO_INIT;
 	LCD_requestRegister(Lcd_Req_Clear);
 
 	OS_vidDelay(5);
 
 	while(!Loc_u8MatchingFlag)
 	{
-		Loc_u32FirstEnter = ZERO_INIT;
-		Loc_u32SecondEnter = ZERO_INIT;
+		*((u32*)Loc_u8FirstEnter) = 0x00000000;
+		*((u32*)Loc_u8SecondEnter) = 0x00000000;
 		LCD_requestRegister(Lcd_Req_Clear);
 		LCD_Goto(0, 1);
 		LCD_displayString((u8*)"Enter Pass: ");
@@ -350,7 +365,7 @@ static void NewUser(void)
 			/*Condition to check*/
 			if (Keypad_Status == Keypad_enuOk)
 			{
-				Loc_u32FirstEnter = (Loc_u8Key + (Loc_u32FirstEnter*10));
+				Loc_u8FirstEnter[Loc_u8CounterSizePass] = Loc_u8Key;
 				LCD_displayCharacter('*');
 				Loc_u8CounterSizePass++;
 			}
@@ -365,35 +380,44 @@ static void NewUser(void)
 		/*Re enter the password loop*/
 		while(Loc_u8CounterSizePass < 4)
 		{
+			OS_vidDelay(5);
 			/*Cheking the return value*/
 			Keypad_Status = Keypad_u8GetPressedKey(&Loc_u8Key);
 
 			/*Condition to check*/
 			if (Keypad_Status == Keypad_enuOk)
 			{
-				Loc_u32SecondEnter = (Loc_u8Key + (Loc_u32SecondEnter*10));
+				Loc_u8SecondEnter[Loc_u8CounterSizePass] = Loc_u8Key;
 				LCD_displayCharacter('*');
 				Loc_u8CounterSizePass++;
 			}
-			OS_vidDelay(5);
 		}/* while */
 
 
-		if(Loc_u32FirstEnter == Loc_u32SecondEnter)
+		if((*((u32*)Loc_u8FirstEnter)) == (*((u32*)Loc_u8SecondEnter)))
 		{
 			Loc_u8MatchingFlag = 1;
 		}
-		OS_vidDelay(500);
 	}/* while */
 
-	EEPROM_WriteByte(3,Loc_u32FirstEnter%10);
-	Loc_u32FirstEnter /= 10;
-	EEPROM_WriteByte(2,Loc_u32FirstEnter%10);
-	Loc_u32FirstEnter /= 10;
-	EEPROM_WriteByte(1,Loc_u32FirstEnter%10);
-	Loc_u32FirstEnter /= 10;
-	EEPROM_WriteByte(0,Loc_u32FirstEnter%10);
-	Loc_u32FirstEnter /= 10;
+	Timeout_Flag = 0;
+
+	Port_vidDisableInterrupt();
+	EEPROM_WriteByte(0, Loc_u8FirstEnter[0]);
+	Port_vidEnableInterrupt();
+	OS_vidDelay(5);
+	Port_vidDisableInterrupt();
+	EEPROM_WriteByte(1, Loc_u8FirstEnter[1]);
+	Port_vidEnableInterrupt();
+	OS_vidDelay(5);
+	Port_vidDisableInterrupt();
+	EEPROM_WriteByte(2, Loc_u8FirstEnter[2]);
+	Port_vidEnableInterrupt();
+	OS_vidDelay(5);
+	Port_vidDisableInterrupt();
+	EEPROM_WriteByte(3, Loc_u8FirstEnter[3]);
+	Port_vidEnableInterrupt();
+	OS_vidDelay(5);
 	Smart_u8Password_Exist = 1;
 
 	LCD_requestRegister(Lcd_Req_Clear);

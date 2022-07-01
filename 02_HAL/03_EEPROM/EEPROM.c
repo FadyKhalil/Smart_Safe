@@ -18,6 +18,7 @@ extern u8 Timeout_Flag;
 
 void EEPROM_vidInit(void)
 {
+	Port_vidDisableInterrupt();
 	I2C_Config ConfigI2c = {
 
 				.Clock_Selection = 16,
@@ -43,12 +44,15 @@ void EEPROM_vidInit(void)
 	/*Initialize the I2C*/
 	I2C_enuVidInit(&ConfigI2c);
 
+	Port_vidEnableInterrupt();
 
 }
 
 void EEPROM_WriteByte(u16 Copy_u16Address, u8 Copy_u8Data)
 {
-	Port_vidDisableInterrupt();
+//	Port_vidDisableInterrupt();
+
+	Timeout_Flag = 0;
 
 	I2C_enuSendStart(I2C_1);
 
@@ -60,14 +64,14 @@ void EEPROM_WriteByte(u16 Copy_u16Address, u8 Copy_u8Data)
 
 	I2C_enuSendStop(I2C_1);
 
-	Port_vidEnableInterrupt();
-	OS_vidDelay(10);
+//	Port_vidEnableInterrupt();
+
 }
 
 
 void EEPROM_ReadByte(u16 Copy_u16Address, u8* Add_pu8Data)
 {
-	Port_vidDisableInterrupt();
+//	Port_vidDisableInterrupt();
 
 	Timeout_Flag = 0;
 
@@ -77,7 +81,9 @@ void EEPROM_ReadByte(u16 Copy_u16Address, u8* Add_pu8Data)
 
 	I2C_enuSendByteSynchronous(I2C_1, (u8)Copy_u16Address);
 
-//	for(volatile int i = 0; i < 2000; i++);
+	I2C_enuSendStop(I2C_1);
+
+	for(volatile int i = 0; i < 2000; i++);
 
 	I2C_enuSendStart(I2C_1);
 
@@ -86,7 +92,10 @@ void EEPROM_ReadByte(u16 Copy_u16Address, u8* Add_pu8Data)
 	I2C_enuReceiveByteSynchronous(I2C_1, Add_pu8Data);
 
 	I2C_enuSendStop(I2C_1);
-	Port_vidEnableInterrupt();
+
+	for(volatile int i = 0; i < 2000; i++);
+
+//	Port_vidEnableInterrupt();
 
 }
 
