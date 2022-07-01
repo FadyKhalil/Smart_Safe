@@ -40,9 +40,7 @@ Lcd_Request_t Lcd_Req_Clear = {
 
 /*Flag to check on saved password*/
 u8 Smart_u8Password_Exist = 1;
-
-
-extern u8 Timeout_Flag;
+static u8 EEPROM_arr_Buffer[4];
 /* ////////////////////////////////////////////////////////////////////////////////////////// */
 
 /* /////////////////////////// Entry Point ////////////////////// */
@@ -153,34 +151,9 @@ static void Enter_Pass(void)
 	static volatile u8 Loc_u8LoopBreaker = 0;
 
 	/*Received and saved password*/
-	static u8 EEPROM_arr_Buffer[4];
 	static volatile u32 ReceivePassword;
 
-	static volatile u8 Loc_u8size = 4;
-
-	static volatile u8 Loc_u8Index = 0;
-	/*****/
-
-	/*Fetch the password in the EEPROM*/
-//	while(Loc_u8Index < Loc_u8size)
-//	{
-//	Port_vidDisableInterrupt();
-	Port_vidDisableInterrupt();
-	EEPROM_ReadByte(0, &EEPROM_arr_Buffer[0]);
-	Port_vidEnableInterrupt();
-//	OS_vidDelay(2);
-	Port_vidDisableInterrupt();
-	EEPROM_ReadByte(1, &EEPROM_arr_Buffer[1]);
-	Port_vidEnableInterrupt();
-//	OS_vidDelay(2);
-	EEPROM_ReadByte(2, &EEPROM_arr_Buffer[2]);
-//	OS_vidDelay(2);
-	EEPROM_ReadByte(3, &EEPROM_arr_Buffer[3]);
-//	OS_vidDelay(2);
-	Port_vidEnableInterrupt();
-//
-//		Loc_u8Index++;
-//	}/*while*/
+	Loc_u8LoopBreaker = 0;
 
 	/*Checking the password with the password stored in the EEPROM*/
 	while(!Loc_u8LoopBreaker)
@@ -341,6 +314,8 @@ static void NewUser(void)
 	static volatile u8 Loc_u8CounterSizePass = ZERO_INIT;
 	LCD_requestRegister(Lcd_Req_Clear);
 
+	static u8 variable_check = 0;
+
 	OS_vidDelay(5);
 
 	while(!Loc_u8MatchingFlag)
@@ -400,25 +375,34 @@ static void NewUser(void)
 		}
 	}/* while */
 
-	Timeout_Flag = 0;
-
-	Port_vidDisableInterrupt();
 	EEPROM_WriteByte(0, Loc_u8FirstEnter[0]);
-	Port_vidEnableInterrupt();
 	OS_vidDelay(5);
-	Port_vidDisableInterrupt();
+	EEPROM_ReadByte(0, &variable_check);
+	while(variable_check != Loc_u8FirstEnter[0]);
+
 	EEPROM_WriteByte(1, Loc_u8FirstEnter[1]);
-	Port_vidEnableInterrupt();
 	OS_vidDelay(5);
-	Port_vidDisableInterrupt();
+	EEPROM_ReadByte(1, &variable_check);
+	while(variable_check != Loc_u8FirstEnter[1]);
+
 	EEPROM_WriteByte(2, Loc_u8FirstEnter[2]);
-	Port_vidEnableInterrupt();
 	OS_vidDelay(5);
-	Port_vidDisableInterrupt();
+	EEPROM_ReadByte(2, &variable_check);
+	while(variable_check != Loc_u8FirstEnter[2]);
+
 	EEPROM_WriteByte(3, Loc_u8FirstEnter[3]);
-	Port_vidEnableInterrupt();
 	OS_vidDelay(5);
+	EEPROM_ReadByte(3, &variable_check);
+	while(variable_check != Loc_u8FirstEnter[3]);
+
 	Smart_u8Password_Exist = 1;
+
+	/*Fetch the password in the EEPROM*/
+
+	EEPROM_ReadByte(0, &EEPROM_arr_Buffer[0]);
+	EEPROM_ReadByte(1, &EEPROM_arr_Buffer[1]);
+	EEPROM_ReadByte(2, &EEPROM_arr_Buffer[2]);
+	EEPROM_ReadByte(3, &EEPROM_arr_Buffer[3]);
 
 	LCD_requestRegister(Lcd_Req_Clear);
 }

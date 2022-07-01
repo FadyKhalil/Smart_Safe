@@ -14,7 +14,6 @@
 #define EEPROM_ADDRESS		0xA0
 
 
-extern u8 Timeout_Flag;
 
 void EEPROM_vidInit(void)
 {
@@ -52,7 +51,6 @@ void EEPROM_WriteByte(u16 Copy_u16Address, u8 Copy_u8Data)
 {
 //	Port_vidDisableInterrupt();
 
-	Timeout_Flag = 0;
 
 	I2C_enuSendStart(I2C_1);
 
@@ -72,8 +70,6 @@ void EEPROM_WriteByte(u16 Copy_u16Address, u8 Copy_u8Data)
 void EEPROM_ReadByte(u16 Copy_u16Address, u8* Add_pu8Data)
 {
 //	Port_vidDisableInterrupt();
-
-	Timeout_Flag = 0;
 
 	I2C_enuSendStart(I2C_1);
 
