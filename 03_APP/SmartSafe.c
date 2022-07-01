@@ -41,8 +41,6 @@ Lcd_Request_t Lcd_Req_Clear = {
 static volatile u8 EEPROM_arr_Buffer[4];
 static volatile SmartSafe_enuLockState_t SmartSafe_enuLockState = SmartSafe_enuLockState_Locked;
 static volatile u8 SmartSafe_u8PasswordExistance = ZERO_INIT;
-/*Flag to check on saved password*/
-static volatile u8 Smart_u8Password_Exist = 1;
 /* ////////////////////////////////////////////////////////////////////////////////////////// */
 
 /* /////////////////////////// Entry Point ////////////////////// */
@@ -96,29 +94,29 @@ void SmartSafe_T(void) {
 	LCD_displayString((u8*)"WELCOME TO SMART");
 	LCD_Goto(6, 2);
 	LCD_displayString((u8*)"SAFE");
-	OS_vidDelay(1000);
+	OS_vidDelay(2000);
 	/*Lcd clear the welcome screen*/
 	LCD_requestRegister(Lcd_Req_Clear);
 	while (1) {
-		LCD_Goto(0,1);
-		LCD_displayString((u8*)"A -> Lock/Unlock");
-		LCD_Goto(0, 2);
-		LCD_displayString((u8*)"B -> New Password");
-		OS_vidDelay(500);
-		/*Cheking the return value*/
-		Keypad_Status = Keypad_u8GetPressedKey((u8*)&Loc_u8Key);
+    LCD_Goto(0,1);
+    LCD_displayString((u8*)"A-> Lock/Unlock");
+    LCD_Goto(0, 2);
+    LCD_displayString((u8*)"B-> New Password");
+    OS_vidDelay(500);
+    /*Cheking the return value*/
+    Keypad_Status = Keypad_u8GetPressedKey((u8*)&Loc_u8Key);
     /*Condition to check*/
-		if (Keypad_Status == Keypad_enuOk)
-		{
-			if((Loc_u8Key == '+') && (Smart_u8Password_Exist == 1))
-			{
-				Login();
-			}/* if */
-			else if(Loc_u8Key == '-')
-			{
-				NewUser();
-			}/* else if */
-		}/* if */
+    if (Keypad_Status == Keypad_enuOk)
+    {
+      if(Loc_u8Key == '+')
+      {
+        Login();
+      }/* if */
+      else if(Loc_u8Key == '-')
+      {
+        NewUser();
+      }/* else if */
+    }/* if */
 	}/* while */
 }/* SmartSafe */
 static u32 Receive_Password(void)
@@ -152,14 +150,8 @@ static u32 Receive_Password(void)
 /**/
 static void Login(void)
 {
-	/*variable for checking EEPROM*/
-	static u8 Loc_Checking_Password ;
-	/*Check the first byte in the EEPROM*/
-	Port_vidDisableInterrupt();
-	EEPROM_ReadByte(0, &Loc_Checking_Password);
-	Port_vidEnableInterrupt();
 	/*Checking if no password*/
-	if(Loc_Checking_Password == 0xFF)
+	if(SmartSafe_u8PasswordExistance == ZERO_INIT)
 	{
 		LCD_requestRegister(Lcd_Req_Clear);
 		/*Display no Password*/
@@ -167,8 +159,6 @@ static void Login(void)
 		LCD_Goto(0,2);
 		LCD_displayString((u8*)"PASSWORD");
 		OS_vidDelay(1000);
-		/*Add flag*/
-		Smart_u8Password_Exist = 0;
 		NewUser();
 	}/* if */
 	else
@@ -197,6 +187,7 @@ static void Enter_Pass(void)
 			Loc_u8LoopBreaker = 1;
 			LCD_Goto(13, 2);
       LCD_displayString((u8*)"OK");
+      Loc_u8PasswordWrong_Counter = ZERO_INIT;
       SmartSafe_enuLockState ^= 1;
       /* ////////////////////////////////////////// Call Stepper Fn ////////////////////////////// */
 			OS_vidDelay(1000);
@@ -211,6 +202,13 @@ static void Enter_Pass(void)
 			{
 				/*Erase Sector of the application*/
 			}/*if*/
+      else if(Loc_u8PasswordWrong_Counter == 2)
+      {
+				LCD_Goto(0, 2);
+        LCD_displayString((u8*)"Next Try->Erase App"); 
+				OS_vidDelay(2000);
+				LCD_requestRegister(Lcd_Req_Clear);
+      }
 			else
 			{
 				LCD_Goto(12, 2);
@@ -302,7 +300,7 @@ static void NewUser(void)
     EEPROM_ReadByte(3, (u8*)&Loc_u8CheckValue);
     while(Loc_u8CheckValue != Loc_u8FirstEnter[3]);
 
-    Smart_u8Password_Exist = 1;
+    SmartSafe_u8PasswordExistance = 1;
 
     EEPROM_ReadByte(0, (u8*)&EEPROM_arr_Buffer[0]);
     EEPROM_ReadByte(1, (u8*)&EEPROM_arr_Buffer[1]);
