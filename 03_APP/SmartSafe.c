@@ -101,10 +101,17 @@ void SmartSafe_T(void) {
 	LCD_displayString((u8*)"SAFE");
 	OS_vidDelay(2000);
 	/*Lcd clear the welcome screen*/
-	LCD_requestRegister(Lcd_Req_Clear);
+  LCD_requestRegister(Lcd_Req_Clear);
 	while (1) {
     LCD_Goto(0,1);
-    LCD_displayString((u8*)"A-> Lock/Unlock");
+    if(SmartSafe_enuLockState == SmartSafe_enuLockState_Locked)
+    {
+      LCD_displayString((u8*)"A-> Unlock");
+    }/* if */
+    else
+    {
+      LCD_displayString((u8*)"A-> Lock");
+    }/* else */
     LCD_Goto(0, 2);
     LCD_displayString((u8*)"B-> New Password");
     OS_vidDelay(500);
@@ -120,6 +127,8 @@ void SmartSafe_T(void) {
       else if(Loc_u8Key == '-')
       {
         NewUser();
+        LCD_requestRegister(Lcd_Req_Clear);
+        OS_vidDelay(1);
       }/* else if */
     }/* if */
 	}/* while */
@@ -195,13 +204,23 @@ static void Enter_Pass(void)
       LCD_displayString((u8*)"OK");
       Loc_u8PasswordWrong_Counter = ZERO_INIT;
       SmartSafe_enuLockState ^= 1;
+      if(SmartSafe_enuLockState == SmartSafe_enuLockState_Locked)
+      {
+        LCD_Goto(0, 2);
+        LCD_displayString((u8*)"Locking");
+      }/* if */
+      else
+      {
+        LCD_Goto(0, 2);
+        LCD_displayString((u8*)"Unlocking");
+      }/* else */
       Loc_enuState = Stepper_vidGetState(STEPPER_u8STEPPER0);
       if(Loc_enuState != Stepper_enuState_Busy)
       {
         Stepper_vidSetDirection(STEPPER_u8STEPPER0, SmartSafe_enuLockState);
         Stepper_vidMoveAngle(STEPPER_u8STEPPER0, 90);
       }/* if */
-			OS_vidDelay(1000);
+			OS_vidDelay(2000);
 			LCD_requestRegister(Lcd_Req_Clear);
 		}/* if */
 		else
@@ -328,8 +347,6 @@ static void NewUser(void)
     LCD_Goto(0, 1);
     LCD_displayString((u8*)"Unlock The Safe!"); 
     OS_vidDelay(2000);
-    LCD_requestRegister(Lcd_Req_Clear);
-    OS_vidDelay(1);
   }/* else */
 }/* NewUser */
 /* ////////////////////////////////////////////////////////////////////////////////////////// */

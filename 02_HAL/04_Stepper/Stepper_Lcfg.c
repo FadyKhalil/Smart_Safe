@@ -25,8 +25,8 @@ volatile Stepper_strConfig_t Stepper_astrStepper[] =
     .pvidPort             = GPIO_B,
     .u16PinA              = GPIO_PIN01,
     .u16PinB              = GPIO_PIN02, 
-    .u16PinC              = GPIO_PIN09,
-    .u16PinD              = GPIO_PIN10,
+    .u16PinC              = GPIO_PIN03,
+    .u16PinD              = GPIO_PIN04,
     .u16Steps             = ZERO_INIT,
     .u8Pattern            = STEPPER_u8START_PATTERN
   }

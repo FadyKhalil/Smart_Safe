@@ -41,12 +41,12 @@ void Stepper_vidInit(void)
     Loc_strConfigurator.GPIO_Mode = GPIO_u8OUTPUT_PUSHPULL;
     Loc_strConfigurator.GPIO_Speed = GPIO_Speed_High;
     Gpio_enuPinConfigurationInit((GPIO_tstrPinConfiguration*)&Loc_strConfigurator);
-    Loc_strConfigurator.GPIO_Port = GPIO_A;
+    Loc_strConfigurator.GPIO_Port = Stepper_astrStepper[Loc_u8Counter].pvidPort;
     Loc_strConfigurator.GPIO_Pin= Stepper_astrStepper[Loc_u8Counter].u16PinC;
     Loc_strConfigurator.GPIO_Mode = GPIO_u8OUTPUT_PUSHPULL;
     Loc_strConfigurator.GPIO_Speed = GPIO_Speed_High;
     Gpio_enuPinConfigurationInit((GPIO_tstrPinConfiguration*)&Loc_strConfigurator);
-    Loc_strConfigurator.GPIO_Port = GPIO_A;
+    Loc_strConfigurator.GPIO_Port = Stepper_astrStepper[Loc_u8Counter].pvidPort;
     Loc_strConfigurator.GPIO_Pin= Stepper_astrStepper[Loc_u8Counter].u16PinD;
     Loc_strConfigurator.GPIO_Mode = GPIO_u8OUTPUT_PUSHPULL;
     Loc_strConfigurator.GPIO_Speed = GPIO_Speed_High;
@@ -123,8 +123,8 @@ void Stepper_vidMasterStepper_T(void)
       {
         Gpio_enuSetPinValue(Stepper_astrStepper[Loc_u8Counter].pvidPort, Stepper_astrStepper[Loc_u8Counter].u16PinA, (Stepper_astrStepper[Loc_u8Counter].u8Pattern & STEPPER_u8FIRST_BIT ) >> STEPPER_u8ZERO_BIT );
         Gpio_enuSetPinValue(Stepper_astrStepper[Loc_u8Counter].pvidPort, Stepper_astrStepper[Loc_u8Counter].u16PinB, (Stepper_astrStepper[Loc_u8Counter].u8Pattern & STEPPER_u8SECOND_BIT) >> STEPPER_u8ONE_BIT  );
-        Gpio_enuSetPinValue(GPIO_A, Stepper_astrStepper[Loc_u8Counter].u16PinC, (Stepper_astrStepper[Loc_u8Counter].u8Pattern & STEPPER_u8THIRD_BIT ) >> STEPPER_u8TWO_BIT  );
-        Gpio_enuSetPinValue(GPIO_A, Stepper_astrStepper[Loc_u8Counter].u16PinD, (Stepper_astrStepper[Loc_u8Counter].u8Pattern & STEPPER_u8FOURTH_BIT) >> STEPPER_u8THREE_BIT);
+        Gpio_enuSetPinValue(Stepper_astrStepper[Loc_u8Counter].pvidPort, Stepper_astrStepper[Loc_u8Counter].u16PinC, (Stepper_astrStepper[Loc_u8Counter].u8Pattern & STEPPER_u8THIRD_BIT ) >> STEPPER_u8TWO_BIT  );
+        Gpio_enuSetPinValue(Stepper_astrStepper[Loc_u8Counter].pvidPort, Stepper_astrStepper[Loc_u8Counter].u16PinD, (Stepper_astrStepper[Loc_u8Counter].u8Pattern & STEPPER_u8FOURTH_BIT) >> STEPPER_u8THREE_BIT);
         Stepper_astrStepper[Loc_u8Counter].u16Steps--;
         if(Stepper_astrStepper[Loc_u8Counter].Stepper_enuDirection == Stepper_enuDirection_CounterClockwise)
         {
