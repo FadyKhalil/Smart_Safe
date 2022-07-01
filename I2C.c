@@ -163,7 +163,7 @@ I2C_enuErrorStatus I2C_enuSendAddressSynchronous(void* Protocol, I2C_Slave_Add C
 		/*Wait BTF to be set to check the data is sent*/
 		while((((I2C(Protocol)->SR1) & (1 << ADDR_BIT)) == 0) && (I2c_Timeout < TIMEOUT))
 		{
-//			I2c_Timeout++;
+			I2c_Timeout++;
 		}
 		if(I2c_Timeout == TIMEOUT)
 		{
@@ -195,7 +195,7 @@ I2C_enuErrorStatus I2C_enuSendByteSynchronous(void* Protocol, u8 Copy_u8Data)
 		 * */
 		while((((I2C(Protocol)->SR1 >> TXE_BIT) & 1) == 0) && (I2c_Timeout < TIMEOUT))
 		{
-//			I2c_Timeout++;
+			I2c_Timeout++;
 		}
 		if(I2c_Timeout == TIMEOUT)
 		{

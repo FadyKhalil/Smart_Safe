@@ -81,7 +81,9 @@ void EEPROM_ReadByte(u16 Copy_u16Address, u8* Add_pu8Data)
 
 	I2C_enuSendByteSynchronous(I2C_1, (u8)Copy_u16Address);
 
-//	for(volatile int i = 0; i < 2000; i++);
+	I2C_enuSendStop(I2C_1);
+
+	for(volatile int i = 0; i < 2000; i++);
 
 	I2C_enuSendStart(I2C_1);
 
@@ -90,6 +92,8 @@ void EEPROM_ReadByte(u16 Copy_u16Address, u8* Add_pu8Data)
 	I2C_enuReceiveByteSynchronous(I2C_1, Add_pu8Data);
 
 	I2C_enuSendStop(I2C_1);
+
+	for(volatile int i = 0; i < 2000; i++);
 
 //	Port_vidEnableInterrupt();
 

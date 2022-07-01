@@ -64,7 +64,9 @@ int main(void) {
 	Keypad_enuInit();
 
 	/*Intialize the EEPROM*/
+	Port_vidDisableInterrupt();
 	EEPROM_vidInit();
+	Port_vidEnableInterrupt();
 
 	/*Initialize task smart safe*/
 	OS_vidCreateTask(SmartSafe_T, 0, SmartSafe_Stack, TASK_STACK_SIZE);
@@ -163,15 +165,19 @@ static void Enter_Pass(void)
 //	while(Loc_u8Index < Loc_u8size)
 //	{
 //	Port_vidDisableInterrupt();
+	Port_vidDisableInterrupt();
 	EEPROM_ReadByte(0, &EEPROM_arr_Buffer[0]);
-	OS_vidDelay(2);
+	Port_vidEnableInterrupt();
+//	OS_vidDelay(2);
+	Port_vidDisableInterrupt();
 	EEPROM_ReadByte(1, &EEPROM_arr_Buffer[1]);
-	OS_vidDelay(2);
+	Port_vidEnableInterrupt();
+//	OS_vidDelay(2);
 	EEPROM_ReadByte(2, &EEPROM_arr_Buffer[2]);
-	OS_vidDelay(2);
+//	OS_vidDelay(2);
 	EEPROM_ReadByte(3, &EEPROM_arr_Buffer[3]);
-	OS_vidDelay(2);
-//	Port_vidEnableInterrupt();
+//	OS_vidDelay(2);
+	Port_vidEnableInterrupt();
 //
 //		Loc_u8Index++;
 //	}/*while*/
@@ -285,10 +291,11 @@ static void LogIn(void)
 	/*variable for checking EEPROM*/
 	static u8 Loc_Checking_Password ;
 
-	OS_vidDelay(5);
-
+//	OS_vidDelay(5);
 	/*Check the first byte in the EEPROM*/
+	Port_vidDisableInterrupt();
 	EEPROM_ReadByte(0, &Loc_Checking_Password);
+	Port_vidEnableInterrupt();
 //	while(Timeout_Flag == 1)
 //	{
 //		EEPROM_ReadByte(0, &Loc_Checking_Password);
@@ -395,16 +402,22 @@ static void NewUser(void)
 
 	Timeout_Flag = 0;
 
-//	Port_vidDisableInterrupt();
+	Port_vidDisableInterrupt();
 	EEPROM_WriteByte(0, Loc_u8FirstEnter[0]);
+	Port_vidEnableInterrupt();
 	OS_vidDelay(5);
+	Port_vidDisableInterrupt();
 	EEPROM_WriteByte(1, Loc_u8FirstEnter[1]);
+	Port_vidEnableInterrupt();
 	OS_vidDelay(5);
+	Port_vidDisableInterrupt();
 	EEPROM_WriteByte(2, Loc_u8FirstEnter[2]);
+	Port_vidEnableInterrupt();
 	OS_vidDelay(5);
+	Port_vidDisableInterrupt();
 	EEPROM_WriteByte(3, Loc_u8FirstEnter[3]);
+	Port_vidEnableInterrupt();
 	OS_vidDelay(5);
-//	Port_vidEnableInterrupt();
 	Smart_u8Password_Exist = 1;
 
 	LCD_requestRegister(Lcd_Req_Clear);
