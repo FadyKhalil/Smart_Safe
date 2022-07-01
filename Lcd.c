@@ -342,6 +342,15 @@ extern res_t LCD_displayCharacter(u8 data)
     return LCD_requestRegister(req);
 }
 
+void LCD_displayString(pu8 string)
+{
+	while((*(string)) != '\0')
+	{
+		LCD_displayCharacter(*string);
+		string++;
+	}
+}
+
 // LCD_sendCharacter (async) function is used to move the cursor
 //  on display 
 // note:
@@ -358,7 +367,7 @@ extern res_t LCD_Goto(u8 x, u8 y)
 {
     Lcd_Request_t req = {
         .type = LCD_REQ_TYP__CMD,
-        .value = LCD_REQ__DISPLAY_LINE2_OFFSET * y + x
+        .value = LCD_REQ__DISPLAY_LINE2_OFFSET * (y+1) + x
     };
     return LCD_requestRegister(req);
 }

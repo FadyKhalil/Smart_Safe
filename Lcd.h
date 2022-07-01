@@ -150,6 +150,9 @@ extern res_t LCD_displayCharacter(u8 data);
 res_t LCD_Goto(u8 x, u8 y);
 
 
+extern void LCD_displayString(pu8 string);
+
+
 res_t Lcd_displayNumber(s32 Num);
 
 extern Lcd_state_t Lcd_status(void);

@@ -6,6 +6,7 @@
 **       Description :	I2C module files
 ** **************************************************************************************/
 #include "StdTypes.h"
+#include "Port.h"
 #include "I2C.h"
 typedef struct
 {
@@ -45,7 +46,14 @@ typedef struct
 /*Initializing*/
 #define PREPHERAL_ENABLE		1
 /*Private Global Variable*/
+
+#define TIMEOUT					500
 //static u8 I2C_Data_Send = 0;
+
+u16 I2c_Timeout = 0;
+u8 Timeout_Flag = 0;
+
+
 I2C_enuErrorStatus I2C_enuVidInit(const I2C_Config* ConfigPtr)
 {
 	I2C_enuErrorStatus Loc_enuErrorStatus = I2C_enuOk;
@@ -103,28 +111,44 @@ I2C_enuErrorStatus I2C_enuVidInit(const I2C_Config* ConfigPtr)
 }
 void I2C_enuSendStart(void* Protocol)
 {
+	I2c_Timeout = 0;
+//	Timeout_Flag = 0;
 	if(Protocol)
 	{
 		/*Start Condition*/
 		I2C(Protocol)->CR1 |= ENABLE << START_BIT;
 		/*Wait till SB is set*/
-		while(((I2C(Protocol)->SR1) & 1) == 0);
+		while(((I2C(Protocol)->SR1) == 0) && (I2c_Timeout < TIMEOUT))
+		{
+			I2c_Timeout++;
+		}
+		if(I2c_Timeout == TIMEOUT)
+		{
+			Timeout_Flag = 1;
+		}
+
 	}
 	else
 	{
 		/*Do nothing*/
 	}
+
 }
 void I2C_enuSendStop(void* Protocol)
 {
+
 	if(Protocol)
 	{
 		/*Stop Condition*/
 		I2C(Protocol)->CR1 |= ENABLE << STOP_BIT;
 	}
+
 }
 I2C_enuErrorStatus I2C_enuSendAddressSynchronous(void* Protocol, I2C_Slave_Add Copy_u16Adress, u8 Copy_u8ReadOrWrite)
 {
+
+	I2c_Timeout = 0;
+//	Timeout_Flag = 0;
 	I2C_enuErrorStatus Loc_enuErrorStatus = I2C_enuOk;
 	/*Check if its NULL*/
 	if(Protocol)
@@ -137,7 +161,15 @@ I2C_enuErrorStatus I2C_enuSendAddressSynchronous(void* Protocol, I2C_Slave_Add C
 		/*Write the Address*/
 		I2C(Protocol)->DR = Loc_u8TempRegister;
 		/*Wait BTF to be set to check the data is sent*/
-		while(((I2C(Protocol)->SR1) & (1 << ADDR_BIT)) == 0);
+		while((((I2C(Protocol)->SR1) & (1 << ADDR_BIT)) == 0) && (I2c_Timeout < TIMEOUT))
+		{
+//			I2c_Timeout++;
+		}
+		if(I2c_Timeout == TIMEOUT)
+		{
+			Timeout_Flag = 1;
+		}
+
 		/*Clear the Register for next step*/
 		(void)(I2C(Protocol)->SR1|I2C(Protocol)->SR2);
 	}
@@ -146,21 +178,40 @@ I2C_enuErrorStatus I2C_enuSendAddressSynchronous(void* Protocol, I2C_Slave_Add C
 		Loc_enuErrorStatus = I2C_enuNullPointer;
 	}
 	/*Return the error Status if any*/
+
 	return Loc_enuErrorStatus;
 }
 I2C_enuErrorStatus I2C_enuSendByteSynchronous(void* Protocol, u8 Copy_u8Data)
 {
+
+	I2c_Timeout = 0;
+//	Timeout_Flag = 0;
+
 	I2C_enuErrorStatus Loc_enuErrorStatus = I2C_enuOk;
 	if(Protocol)
 	{
 		/*Check the transmitter flag
 		 * Check the TXE flag
 		 * */
-		while(((I2C(Protocol)->SR1 >> TXE_BIT) & 1) == 0);
+		while((((I2C(Protocol)->SR1 >> TXE_BIT) & 1) == 0) && (I2c_Timeout < TIMEOUT))
+		{
+//			I2c_Timeout++;
+		}
+		if(I2c_Timeout == TIMEOUT)
+		{
+			Timeout_Flag = 1;
+		}
 		/*Write the Data*/
 		I2C(Protocol)->DR = Copy_u8Data;
 		/*Check if the Data transmit by checking BTF flag*/
-		while(((I2C(Protocol)->SR1 >> BTF_BIT) & 1) == 0);
+		while((((I2C(Protocol)->SR1 >> BTF_BIT) & 1) == 0) && (I2c_Timeout < TIMEOUT))
+		{
+//			I2c_Timeout++;
+		}
+		if(I2c_Timeout == TIMEOUT)
+		{
+			Timeout_Flag = 1;
+		}
 	}
 	else
 	{
@@ -170,17 +221,40 @@ I2C_enuErrorStatus I2C_enuSendByteSynchronous(void* Protocol, u8 Copy_u8Data)
 }
 I2C_enuErrorStatus I2C_enuReceiveByteSynchronous(void* Protocol, pu8 Add_pu8Data)
 {
+	I2c_Timeout = 0;
+//	Timeout_Flag = 0;
+
 	I2C_enuErrorStatus Loc_enuErrorStatus = I2C_enuOk;
 	if(Protocol)
 	{
+
+		/*Disable the acknowledge*/
+		I2C(Protocol)->CR1 |= 0 << ACK;
+
+		/*Delete ADDR register*/
+		(void)(I2C(Protocol)->SR1|I2C(Protocol)->SR2);
+
+		/*Send stop*/
+		I2C_enuSendStop(I2C_1);
+
+
+//		(void)I2C(Protocol)->DR;
+
 		/*Wait the data to be transfer
 		 * Check The RXE flag in SR1 register
 		 * */
-		while(((I2C(Protocol)->SR1 >> RXE_BIT) & 1) == 0);
+//		while((((I2C(Protocol)->SR1 >> RXE_BIT) & 1) == 0) && (I2c_Timeout < TIMEOUT))
+//		{
+////			I2c_Timeout++;
+//		}
+//		if(I2c_Timeout == TIMEOUT)
+//		{
+//			Timeout_Flag = 1;
+//		}
+
 		/*Receive The data*/
 		*Add_pu8Data = I2C(Protocol)->DR;
-		/*Send Acknowledge*/
-		I2C(Protocol)->CR1 |= 1 << ACK;
+
 	}
 	else
 	{

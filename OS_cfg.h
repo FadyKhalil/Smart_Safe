@@ -10,7 +10,7 @@
   /* ///////////////////////////////// MACROS ////////////////////////////// */
   #define OS_u8TASKS_MAX                      ((u8)(10))
   #define OS_u8SEMAPHORES_MAX                 ((u8)(10))
-  #define OS_u8IDLE_TASK_STACK_SIZE           ((u8)(85))
+  #define OS_u8IDLE_TASK_STACK_SIZE           ((u16)(500))
   /* ****Caution**** : Don't forget to configure the systick clock with your system clock */
   #define OS_u16TICK_TIME                     ((u16)(1))
   /* /////////////////////////////////////////////////////////////////////// */
