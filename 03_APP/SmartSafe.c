@@ -251,7 +251,7 @@ static void Enter_Pass(void)
 				Fls_enuErase(FLS_MEMORY_SECTOR_2);
         Fls_enuErase(FLS_MEMORY_SECTOR_3);
         Fls_enuErase(FLS_MEMORY_SECTOR_4);
-        Fls_enuErase(FLS_MEMORY_SECTOR_5);
+//        Fls_enuErase(FLS_MEMORY_SECTOR_5);
 			}/*if*/
       else if(Loc_u8PasswordWrong_Counter == 2)
       {
