@@ -12,6 +12,7 @@
 #include "Port.h"
 /* MCAL */
 #include "RCC.h"
+#include "Fls.h"
 /* HAL */
 #include "Keypad.h"
 #include "Lcd.h"
@@ -47,6 +48,11 @@ static volatile u8 SmartSafe_u8PasswordExistance = ZERO_INIT;
 
 /* /////////////////////////// Entry Point ////////////////////// */
 int main(void) {
+  Fls_tstrConfig Bld_strFlsConfig =
+	{
+    .Interrupts = FLS_INTERRUPT_DISABLED,
+    .ProgrammingSize = FLS_PROGRAM_PARALLELISM_X08
+	};
 	/*Init the hardware*/
 	RCC_enuTurnClk(RCC_u8HSI, RCC_enuOn);
 	RCC_enuSelectSysClk(RCC_u8RUN_HSI);
@@ -54,10 +60,11 @@ int main(void) {
 	RCC_enuPerClk(RCC_enuGPIOB, RCC_enuOn);
 	RCC_enuPerClk(RCC_enuUSART1, RCC_enuOn);
 	RCC_enuPerClk(RCC_enuI2C1, RCC_enuOn);
-	/*Init the LCD*/
-	LCD_init();
+	
 	/*Init the keypad*/
 	Keypad_enuInit();
+	/*Init the LCD*/
+	LCD_init();
   /* Init the Stepper */ 
   Stepper_vidInit();
   /*Init the EEPROM*/
@@ -67,6 +74,7 @@ int main(void) {
 	EEPROM_ReadByte(2, (u8*)&EEPROM_arr_Buffer[2]);
 	EEPROM_ReadByte(3, (u8*)&EEPROM_arr_Buffer[3]);
 
+  Fls_enuInit(&Bld_strFlsConfig);
 	if(EEPROM_arr_Buffer[0] != 0xFF)
 	{
     SmartSafe_u8PasswordExistance = 1;
@@ -230,7 +238,20 @@ static void Enter_Pass(void)
 			/*Check the password is wrong for 3 times*/
 			if(Loc_u8PasswordWrong_Counter == 3)
 			{
+				LCD_requestRegister(Lcd_Req_Clear);
+				LCD_Goto(0, 1);
+        LCD_displayString((u8*)"GoodBye..."); 
+				LCD_Goto(0, 2);
+        LCD_displayString((u8*)"Erasing..."); 
+				OS_vidDelay(2000);
+				LCD_requestRegister(Lcd_Req_Clear);
 				/*Erase Sector of the application*/
+				Fls_enuErase(FLS_MEMORY_SECTOR_0);
+				Fls_enuErase(FLS_MEMORY_SECTOR_1);
+				Fls_enuErase(FLS_MEMORY_SECTOR_2);
+        Fls_enuErase(FLS_MEMORY_SECTOR_3);
+        Fls_enuErase(FLS_MEMORY_SECTOR_4);
+        Fls_enuErase(FLS_MEMORY_SECTOR_5);
 			}/*if*/
       else if(Loc_u8PasswordWrong_Counter == 2)
       {
